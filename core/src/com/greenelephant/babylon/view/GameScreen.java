@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.greenelephant.babylon.model.TestTower;
+import com.greenelephant.babylon.model.Tower;
+
+import static com.greenelephant.babylon.utils.Constants.FIELD_SIZE;
 
 public class GameScreen implements Screen {
 
@@ -16,7 +19,7 @@ public class GameScreen implements Screen {
     //private Texture greenElephantTexture;
     //private GreenElephant greenElephant;
     private Texture testTowerTexture;
-    private TestTower testTower;
+    private Tower testTower;
     private OrthographicCamera camera;
 
     // Time between render calls
@@ -29,9 +32,9 @@ public class GameScreen implements Screen {
     public void show() {
         batch = new SpriteBatch();
 
-        testTowerTexture = new Texture("testTower.jpg");
+        testTowerTexture = new Texture(TestTower.TEXTURE_PATH);
         testTowerTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        testTower = new TestTower(testTowerTexture, -1f, 0, 3f, 3f * 0.654f);
+        testTower = new TestTower(testTowerTexture, -1f, 0, FIELD_SIZE, FIELD_SIZE);
 
 
         // greenElephantTexture = new Texture("green-elephant.png");
