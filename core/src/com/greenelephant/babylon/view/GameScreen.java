@@ -8,13 +8,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.greenelephant.babylon.model.GreenElephant;
+import com.greenelephant.babylon.model.TestTower;
 
 public class GameScreen implements Screen {
 
     private SpriteBatch batch;
-    private Texture greenElephantTexture;
-    private GreenElephant greenElephant;
+    //private Texture greenElephantTexture;
+    //private GreenElephant greenElephant;
+    private Texture testTowerTexture;
+    private TestTower testTower;
     private OrthographicCamera camera;
 
     // Time between render calls
@@ -26,10 +28,16 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         batch = new SpriteBatch();
-        greenElephantTexture = new Texture("green-elephant.png");
-        greenElephantTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        testTowerTexture = new Texture("testTower.jpg");
+        testTowerTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        testTower = new TestTower(testTowerTexture, -1f, 0, 3f, 3f * 0.654f);
+
+
+        // greenElephantTexture = new Texture("green-elephant.png");
+        //greenElephantTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         // абстрагировать позицию слона
-        greenElephant = new GreenElephant(greenElephantTexture, -1f, 0, 3f, 3f*0.654f);
+        //greenElephant = new GreenElephant(greenElephantTexture, -1f, 0, 3f, 3f*0.654f);
         // greenElephant = new GreenElephant(greenElephantTexture, 0, 0, 272, 178);
     }
 
@@ -49,7 +57,8 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        greenElephant.draw(batch);
+        //greenElephant.draw(batch);
+        testTower.draw(batch);
         batch.end();
     }
 
@@ -96,6 +105,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         batch.dispose();
-        greenElephantTexture.dispose();
+        testTowerTexture.dispose();
     }
 }

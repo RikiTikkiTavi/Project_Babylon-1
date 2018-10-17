@@ -14,7 +14,7 @@ public class GreenElephant extends GameObject {
     }
 
     @Override
-    public void draw(SpriteBatch batch){
+    public void draw(SpriteBatch batch) {
         super.draw(batch);
         greenElephantController.handle();
     }
