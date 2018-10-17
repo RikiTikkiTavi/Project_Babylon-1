@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Polygon;
 
-abstract public class GameObject {
+abstract class GameObject {
     Polygon bounds;
     Sprite object;
 

@@ -16,8 +16,6 @@ import static com.greenelephant.babylon.utils.Constants.FIELD_SIZE;
 public class GameScreen implements Screen {
 
     private SpriteBatch batch;
-    //private Texture greenElephantTexture;
-    //private GreenElephant greenElephant;
     private Texture testTowerTexture;
     private Tower testTower;
     private OrthographicCamera camera;
@@ -36,12 +34,6 @@ public class GameScreen implements Screen {
         testTowerTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         testTower = new TestTower(testTowerTexture, -1f, 0, FIELD_SIZE, FIELD_SIZE);
 
-
-        // greenElephantTexture = new Texture("green-elephant.png");
-        //greenElephantTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        // абстрагировать позицию слона
-        //greenElephant = new GreenElephant(greenElephantTexture, -1f, 0, 3f, 3f*0.654f);
-        // greenElephant = new GreenElephant(greenElephantTexture, 0, 0, 272, 178);
     }
 
     /**
@@ -59,8 +51,9 @@ public class GameScreen implements Screen {
         // Применяем матрицу проекции к отрисовщику
         batch.setProjectionMatrix(camera.combined);
 
+        testTower.handle(camera);
+
         batch.begin();
-        //greenElephant.draw(batch);
         testTower.draw(batch);
         batch.end();
     }
