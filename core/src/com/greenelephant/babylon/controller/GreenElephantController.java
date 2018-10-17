@@ -17,12 +17,13 @@ public class GreenElephantController {
     private float moveX = 0f;
     public void handle() {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            moveX += 0.2f;
+            moveX += 1.0f;
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            moveX -= 0.2f;
+            moveX -= 1.0f;
         greenElephantBounds.setPosition(
                 greenElephantBounds.getX() + moveX * GameScreen.deltaCff,
                 greenElephantBounds.getY()
         );
+        moveX = 0.0f;
     }
 }
