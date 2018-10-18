@@ -1,6 +1,13 @@
 package com.greenelephant.babylon.utils;
 
-public class Constants {
-    public static final int APP_WIDTH = 1920;
-    public static final int APP_HEIGHT = 1080;
+public enum Constants {
+    /* resolution 1920 */
+    APP_WIDTH(1920),
+    APP_HEIGHT(1080),
+    RESOLUTION(1024);
+
+    public final int value;
+    Constants (int value){
+        this.value = value;
+    }
 }

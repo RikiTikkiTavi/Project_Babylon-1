@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.greenelephant.babylon.utils.Constants;
 
 public class GameScreen implements Screen {
 
@@ -45,9 +46,8 @@ public class GameScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         float aspectRation = (float) height / width;
-        camera = new OrthographicCamera(1024, 1024 * aspectRation);
-        camera.position.x = 256 *2;
-        camera.position.y = 256 * aspectRation;
+        camera = new OrthographicCamera(Constants.RESOLUTION.value, Constants.RESOLUTION.value * aspectRation);
+        camera.translate(Constants.RESOLUTION.value >> 1, (Constants.RESOLUTION.value >> 1) * aspectRation );
         camera.update();
     }
 
@@ -79,5 +79,6 @@ public class GameScreen implements Screen {
      * Called when this screen should release all resources.
      */
     @Override
-    public void dispose() {}
+    public void dispose() {
+    }
 }
