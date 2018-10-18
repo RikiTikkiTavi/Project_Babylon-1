@@ -16,10 +16,8 @@ public class GreenElephantController {
 
     private float moveX = 0f;
     public void handle() {
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            moveX += 1.0f;
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            moveX -= 1.0f;
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) moveX += 1.0f;
+        else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) moveX -= 1.0f;
         greenElephantBounds.setPosition(
                 greenElephantBounds.getX() + moveX * GameScreen.deltaCff,
                 greenElephantBounds.getY()

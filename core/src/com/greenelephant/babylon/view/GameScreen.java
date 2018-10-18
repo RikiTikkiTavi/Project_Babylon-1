@@ -2,19 +2,15 @@ package com.greenelephant.babylon.view;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.greenelephant.babylon.model.GreenElephant;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class GameScreen implements Screen {
 
-    private SpriteBatch batch;
-    private Texture greenElephantTexture;
-    private GreenElephant greenElephant;
+    private OrthogonalTiledMapRenderer tiledMapRenderer;
     private OrthographicCamera camera;
 
     // Time between render calls
@@ -25,12 +21,9 @@ public class GameScreen implements Screen {
      */
     @Override
     public void show() {
-        batch = new SpriteBatch();
-        greenElephantTexture = new Texture("green-elephant.png");
-        greenElephantTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        // абстрагировать позицию слона
-        greenElephant = new GreenElephant(greenElephantTexture, -1f, 0, 3f, 3f*0.654f);
-        // greenElephant = new GreenElephant(greenElephantTexture, 0, 0, 272, 178);
+
+        TiledMap tiledMap = new TmxMapLoader().load("test-map.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
     }
 
     /**
@@ -40,17 +33,8 @@ public class GameScreen implements Screen {
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        deltaCff = delta;
-
-        // Применяем матрицу проекции к отрисовщику
-        batch.setProjectionMatrix(camera.combined);
-
-        batch.begin();
-        greenElephant.draw(batch);
-        batch.end();
+        tiledMapRenderer.setView(camera);
+        tiledMapRenderer.render();
     }
 
     /**
@@ -61,9 +45,10 @@ public class GameScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         float aspectRation = (float) height / width;
-        camera = new OrthographicCamera(30f, 30f * aspectRation);
-        /*camera.zoom = 0.6f;
-        camera.update();*/
+        camera = new OrthographicCamera(1024, 1024 * aspectRation);
+        camera.position.x = 256 *2;
+        camera.position.y = 256 * aspectRation;
+        camera.update();
     }
 
     /**
@@ -94,8 +79,5 @@ public class GameScreen implements Screen {
      * Called when this screen should release all resources.
      */
     @Override
-    public void dispose() {
-        batch.dispose();
-        greenElephantTexture.dispose();
-    }
+    public void dispose() {}
 }
