@@ -52,21 +52,22 @@ public class GameScreen implements Screen {
      */
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
-////        Gdx.gl.glClearColor(0, 0, 0, 1);
-////        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//
+
+
 //        deltaCff = delta;
 //
 //        // Применяем матрицу проекции к отрисовщику
-//        batch.setProjectionMatrix(camera.combined);
-//
-//        testTower.handle(camera);
-//
-//        batch.begin();
-//        testTower.draw(batch);
-//        batch.end();
+          batch.setProjectionMatrix(camera.combined);
+
+          testTower.handle(camera);
+
+        batch.begin();
+        testTower.draw(batch);
+        batch.end();
     }
 
     /**
