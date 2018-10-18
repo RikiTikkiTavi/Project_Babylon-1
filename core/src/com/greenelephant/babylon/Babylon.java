@@ -13,5 +13,4 @@ public class Babylon extends Game {
         setScreen(gameScreen);
     }
 
-
 }
