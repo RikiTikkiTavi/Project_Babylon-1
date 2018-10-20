@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
@@ -21,11 +23,13 @@ import static com.greenelephant.babylon.utils.Constants.FIELD_SIZE;
 
 public class GameScreen implements Screen {
 
-    private OrthogonalTiledMapRenderer tiledMapRenderer;
     private SpriteBatch batch;
     private Texture testTowerTexture;
     private Tower testTower;
+    private TiledMapTileLayer tiledMapTileLayer;
     private OrthographicCamera camera;
+    private OrthogonalTiledMapRenderer tiledMapRenderer;
+    private int[] decorationLayersIndices;
 
     // Time between render calls
     public static float deltaCff;
@@ -35,14 +39,20 @@ public class GameScreen implements Screen {
      */
     @Override
     public void show() {
-
         TiledMap tiledMap = new TmxMapLoader().load("test-map.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        MapLayers mapLayers = tiledMap.getLayers();
+        tiledMapTileLayer = (TiledMapTileLayer) mapLayers.get("tree");
+        decorationLayersIndices = new int[]{
+                mapLayers.getIndex("tree"),
+                mapLayers.getIndex("Water"),
+                mapLayers.getIndex("Bridge")
+        };
         batch = new SpriteBatch();
 
         testTowerTexture = new Texture(TestTower.TEXTURE_PATH);
         testTowerTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        testTower = new TestTower(testTowerTexture, Constants.RESOLUTION.value/2, Constants.RESOLUTION.value/4,
+        testTower = new TestTower(testTowerTexture, Constants.RESOLUTION.value >> 1, Constants.RESOLUTION.value >> 2,
                 Constants.FIELD_SIZE.value, Constants.FIELD_SIZE.value);
     }
 
@@ -53,22 +63,18 @@ public class GameScreen implements Screen {
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(.5f, .7f, .9f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // Update the camera
+        camera.update();
         tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
 
-
-//        deltaCff = delta;
-//
-//        // Применяем матрицу проекции к отрисовщику
-          batch.setProjectionMatrix(camera.combined);
-
-          testTower.handle(camera);
-
-        batch.begin();
-        testTower.draw(batch);
-        batch.end();
+        // Rendering
+        tiledMapRenderer.render(decorationLayersIndices);
+        tiledMapRenderer.getBatch().begin();
+        tiledMapRenderer.renderTileLayer(tiledMapTileLayer);
+        tiledMapRenderer.getBatch().end();
     }
 
     /**
@@ -80,7 +86,7 @@ public class GameScreen implements Screen {
     public void resize(int width, int height) {
         float aspectRation = (float) height / width;
         camera = new OrthographicCamera(Constants.RESOLUTION.value, Constants.RESOLUTION.value * aspectRation);
-        camera.translate(Constants.RESOLUTION.value >> 1, (Constants.RESOLUTION.value >> 1) * aspectRation );
+        camera.translate(Constants.RESOLUTION.value >> 1, (Constants.RESOLUTION.value >> 1) * aspectRation);
         camera.update();
     }
 
