@@ -7,16 +7,23 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.greenelephant.babylon.model.Map;
 import com.greenelephant.babylon.utils.Constants;
 
 
 public class GameScreen implements Screen {
 
-    Map map = new Map("test-map.tmx");
+    private Map map;
+    private FitViewport viewport;
     // Time between render calls
-    public static float deltaCff;
+    // public static float deltaCff;
     private OrthographicCamera camera;
+
+    public GameScreen(String mapName){
+        map = new Map(mapName);
+        viewport = new FitViewport(Constants.RESOLUTION.value >> 1, Constants.RESOLUTION.value >> 1, camera);
+    }
 
     /**
      * Called when this screen becomes the current screen for a {@link Game}.

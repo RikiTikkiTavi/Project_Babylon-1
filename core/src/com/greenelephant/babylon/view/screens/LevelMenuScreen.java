@@ -15,18 +15,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.greenelephant.babylon.model.Map;
 import com.greenelephant.babylon.utils.Constants;
+import com.greenelephant.babylon.controller.MapController;
 
-public class MainMenuScreen implements Screen {
+public class LevelMenuScreen implements Screen {
 
     private SpriteBatch batch;
     private Stage stage;
     private Viewport viewport;
     private OrthographicCamera camera;
     private Skin skin;
-    private TextButton playButton, exitButton;
+    private TextButton testLevelButton, exitButton;
 
-    public MainMenuScreen() {
+    public LevelMenuScreen() {
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
 
         batch = new SpriteBatch();
@@ -43,16 +45,16 @@ public class MainMenuScreen implements Screen {
 
     private void initializeMenuButtons() {
         //Create buttons
-        playButton = new TextButton("Play", skin, "default");
-        exitButton = new TextButton("Exit", skin, "default");
+        testLevelButton = new TextButton("Level\nTest", skin, "default");
+        exitButton = new TextButton("Exit to Menu", skin, "default");
     }
 
     private void initializeMenuButtonsListeners() {
         //Add listeners to buttons
-        playButton.addListener(new ClickListener() {
+        testLevelButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelMenuScreen());
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen("test-map.tmx"));
             }
         });
         exitButton.addListener(new ClickListener() {
@@ -79,7 +81,7 @@ public class MainMenuScreen implements Screen {
         initializeMenuButtonsListeners();
 
         //Add buttons to table
-        mainTable.add(playButton).size(150f, 60f);
+        mainTable.add(testLevelButton).size(60f, 60f);
         mainTable.row();
         mainTable.row();
         mainTable.add(exitButton).size(150f, 60f);
