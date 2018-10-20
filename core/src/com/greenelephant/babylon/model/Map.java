@@ -17,11 +17,10 @@ import com.greenelephant.babylon.utils.Pair;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Map {
 
-    private ArrayList<Vector3> dots = new ArrayList<Vector3>();
+    MapConfig mapConfig = new MapConfig();
 
     private int level;
     private SpriteBatch batch;
@@ -33,11 +32,10 @@ public class Map {
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     private ArrayList<Tower> towers;
     private ArrayList<Enemy> enemies;
-    private Vector3 spawnPoint = new Vector3(15, 310, 0);
+
     private long frequency = 2000;
     private long lastEnemy;
-    final Random random = new Random();
-    private ArrayList<Pair<Vector3, Integer>> turnPoints;
+
 
     public Map(String mapName) {
         level = 0;
@@ -48,15 +46,9 @@ public class Map {
         enemies = new ArrayList<Enemy>();
         destroyLevel = new String[]{"House", "HouseD-1", "HouseD-2", "House-Upgrade"};
 
-        dots.add(new Vector3(235, 186, 0));
-        dots.add(new Vector3(327, 45, 0));
 
-        turnPoints = new ArrayList<Pair<Vector3, Integer>>();
-        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(411, 310, 0), -1));
-        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(411, 22, 0), 1));
-        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(737, 22, 0), 1));
-        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(737, 310, 0), -1));
-        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(781, 310, 0), 0));
+
+
     }
 
     public void show() {
@@ -77,7 +69,7 @@ public class Map {
             e.printStackTrace();
         }
 
-        enemies.add(new TestEnemy(spawnPoint.x, spawnPoint.y));
+        enemies.add(new TestEnemy(mapConfig.getSpawnPoint().x, mapConfig.getSpawnPoint().y));
         lastEnemy = System.currentTimeMillis();
     }
 
@@ -106,7 +98,7 @@ public class Map {
     }
 
     private void update(OrthographicCamera camera) {
-        for (Pair<Vector3, Integer> dot : turnPoints) {
+        for (Pair<Vector3, Integer> dot : mapConfig.getTurnPoints()) {
             for (Enemy enemy : enemies) {
                 if (enemy.getVector().dst(dot.getKey()) < 1/enemy.getSpeed()) {
                     if(dot.getValue() != 0)
@@ -122,10 +114,10 @@ public class Map {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             touchPos = camera.unproject(touchPos);
             Gdx.app.log("Info, coordinates ", "X:" + touchPos.x + "Y:" + touchPos.y);
-            for (Vector3 dot : dots) {
+            for (Vector3 dot : mapConfig.getTowerDots()) {
                 if (touchPos.sub(dot).len() <= 24) {
                     towers.add(new TestTower(dot.x - 24, dot.y - 24));
-                    dots.remove(dot);
+                    mapConfig.getTowerDots().remove(dot);
                     break;
                 }
             }
@@ -144,7 +136,7 @@ public class Map {
             enemy.move();
         }
         if (System.currentTimeMillis() - lastEnemy >= frequency) {
-            enemies.add(new TestEnemy(spawnPoint.x, spawnPoint.y));
+            enemies.add(new TestEnemy(mapConfig.getSpawnPoint().x, mapConfig.getSpawnPoint().y));
             lastEnemy = System.currentTimeMillis();
         }
 
