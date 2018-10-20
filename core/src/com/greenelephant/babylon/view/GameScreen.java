@@ -26,10 +26,18 @@ public class GameScreen implements Screen {
     private SpriteBatch batch;
     private Texture testTowerTexture;
     private Tower testTower;
-    private TiledMapTileLayer tiledMapTileLayer;
+
     private OrthographicCamera camera;
-    private OrthogonalTiledMapRenderer tiledMapRenderer;
     private int[] decorationLayersIndices;
+
+    private String[] destroyLevel = {"House", "HouseD-1", "HouseD-2", "House-Upgrade"};
+
+    private TiledMapTileLayer tiledMapTileLayer;
+    private OrthogonalTiledMapRenderer tiledMapRenderer;
+    TiledMap tiledMap = new TmxMapLoader().load("test-map.tmx");
+    MapLayers mapLayers = tiledMap.getLayers();
+
+    int level = 0;
 
     // Time between render calls
     public static float deltaCff;
@@ -39,10 +47,10 @@ public class GameScreen implements Screen {
      */
     @Override
     public void show() {
-        TiledMap tiledMap = new TmxMapLoader().load("test-map.tmx");
+
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        MapLayers mapLayers = tiledMap.getLayers();
-        tiledMapTileLayer = (TiledMapTileLayer) mapLayers.get("tree");
+
+
         decorationLayersIndices = new int[]{
                 mapLayers.getIndex("tree"),
                 mapLayers.getIndex("Water"),
@@ -71,15 +79,21 @@ public class GameScreen implements Screen {
         tiledMapRenderer.setView(camera);
 
         // Rendering
+        tiledMapTileLayer = (TiledMapTileLayer) mapLayers.get(destroyLevel[level]);
         tiledMapRenderer.render(decorationLayersIndices);
         tiledMapRenderer.getBatch().begin();
         tiledMapRenderer.renderTileLayer(tiledMapTileLayer);
         tiledMapRenderer.getBatch().end();
+        if (level < 3) {
+            try { Thread.sleep(6000); }
+            catch (InterruptedException e) { e.printStackTrace(); }
+            level++;
+        }
     }
 
     /**
-     * @param width
-     * @param height
+     * @param width  TODO:Description
+     * @param height TODO:Description
      * @see ApplicationListener#resize(int, int)
      */
     @Override
