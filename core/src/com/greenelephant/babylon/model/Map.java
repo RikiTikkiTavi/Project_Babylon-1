@@ -54,12 +54,11 @@ public class Map {
     public void show() {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(this.tiledMap);
         decorationLayersIndices = new int[]{
-                mapLayers.getIndex("tree"),
                 mapLayers.getIndex("Water"),
-                mapLayers.getIndex("tower-layer"),
                 mapLayers.getIndex("road"),
-                mapLayers.getIndex("cave"),
-                mapLayers.getIndex("gover")
+                mapLayers.getIndex("tower-layer"),
+                mapLayers.getIndex("gover"),
+                mapLayers.getIndex("decor"),
         };
         batch = new SpriteBatch();
         try {
