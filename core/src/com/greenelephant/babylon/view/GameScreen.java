@@ -42,7 +42,8 @@ public class GameScreen implements Screen {
 
         testTowerTexture = new Texture(TestTower.TEXTURE_PATH);
         testTowerTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        testTower = new TestTower(testTowerTexture, -1f, 0, FIELD_SIZE.value, FIELD_SIZE.value);
+        testTower = new TestTower(testTowerTexture, Constants.RESOLUTION.value/2, Constants.RESOLUTION.value/4,
+                Constants.FIELD_SIZE.value, Constants.FIELD_SIZE.value);
     }
 
     /**

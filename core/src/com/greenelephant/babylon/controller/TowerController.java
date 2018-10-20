@@ -23,7 +23,7 @@ public class TowerController {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             camera.unproject(touchPos);
             towerBounds.setPosition(touchPos.x - width / 2,
-                    touchPos.y - height / 2);
+                    touchPos.y - height /2 );
         }
     }
 }
