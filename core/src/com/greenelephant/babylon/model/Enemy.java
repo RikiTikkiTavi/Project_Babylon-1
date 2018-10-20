@@ -1,8 +1,10 @@
 package com.greenelephant.babylon.model;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.greenelephant.babylon.controller.TowerController;
 import com.greenelephant.babylon.utils.Constants;
 
@@ -32,8 +34,9 @@ abstract public class Enemy extends GameObject {
     public void turnLeft(){
         speed.rotate90(1);
     }
-    public void turn(int i){
+    public void turn(int i) {
         speed.rotate90(i);
+        sprite.rotate90(i < 0);
     }
     public float getSpeed(){
         return speed.len2();
