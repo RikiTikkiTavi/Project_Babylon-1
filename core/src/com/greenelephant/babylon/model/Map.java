@@ -1,19 +1,24 @@
 package com.greenelephant.babylon.model;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector3;
 import com.greenelephant.babylon.utils.Constants;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class Map {
+
+    private ArrayList<Vector3> dots = new ArrayList<Vector3>();
 
     private int level;
     private SpriteBatch batch;
@@ -31,6 +36,8 @@ public class Map {
         mapLayers = tiledMap.getLayers();
         towers = new ArrayList<Tower>();
         destroyLevel = new String[]{"House", "HouseD-1", "HouseD-2", "House-Upgrade"};
+        dots.add(new Vector3(235,186,0));
+        dots.add(new Vector3(327,45,0));
     }
 
     public void show(){
@@ -38,7 +45,8 @@ public class Map {
         decorationLayersIndices = new int[]{
                 mapLayers.getIndex("tree"),
                 mapLayers.getIndex("Water"),
-                mapLayers.getIndex("Bridge")
+                mapLayers.getIndex("Bridge"),
+                mapLayers.getIndex("tower-layer")
         };
         batch = new SpriteBatch();
         try {
@@ -65,18 +73,34 @@ public class Map {
         tiledMapRenderer.getBatch().end();
 
         batch.begin();
-        towers.get(0).draw(batch);
+        for(Tower tower:towers)
+            tower.draw(batch);
         batch.end();
 
-        update();
+        update(camera);
     }
 
-    private void update(){
+    private void update(OrthographicCamera camera){
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+            Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            touchPos = camera.unproject(touchPos);
+            for(Vector3 dot:dots){
+                if(touchPos.sub(dot).len() <= 24) {
+                    towers.add(new TestTower(dot.x - 24, dot.y - 24));
+                    dots.remove(dot);
+                    break;
+                }
+            }
+        }
         if (level < 3) {
-            try { Thread.sleep(6000); }
+            try { Thread.sleep(1000); }
             catch (InterruptedException e) { e.printStackTrace(); }
             level++;
         }
+    }
+
+    private boolean checkIfTower() {
+        return true;
     }
 
     public void dispose() {

@@ -4,11 +4,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Vector3;
 
 abstract class GameObject {
     Polygon bounds;
     Sprite sprite;
     Texture texture;
+
 
     GameObject(String texturePath, float x, float y, float width, float height) {
         texture = new Texture(texturePath);
@@ -23,7 +25,9 @@ abstract class GameObject {
         bounds.setOrigin(x / 2f, y / 2f);
 
     }
-
+    public Vector3 getVector(){
+        return new Vector3(bounds.getX(),bounds.getY(),0);
+    }
     public void draw(SpriteBatch batch) {
         sprite.setPosition(bounds.getX(), bounds.getY());
         sprite.setRotation(bounds.getRotation());
