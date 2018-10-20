@@ -38,7 +38,9 @@ abstract public class Tower extends GameObject {
             this.shootingFrequency = upgrade.getShootingFrequency();
             towerController.setShootingFrequency(this.shootingFrequency);
             Texture newTexture = new Texture(upgrade.getTexturePath());
+            texture.dispose();
             newTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+            texture = newTexture;
             sprite.setTexture(newTexture);
         }
     }

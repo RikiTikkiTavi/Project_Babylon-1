@@ -8,11 +8,12 @@ import com.badlogic.gdx.math.Polygon;
 abstract class GameObject {
     Polygon bounds;
     Sprite sprite;
+    Texture texture;
 
     GameObject(String texturePath, float x, float y, float width, float height) {
-        Texture newTexture = new Texture(texturePath);
-        newTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        sprite = new Sprite(newTexture);
+        texture = new Texture(texturePath);
+        texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        sprite = new Sprite(texture);
         sprite.setSize(width, height);
         sprite.setOrigin(x / 2f, y / 2f);
         sprite.setPosition(x, y);
@@ -27,6 +28,10 @@ abstract class GameObject {
         sprite.setPosition(bounds.getX(), bounds.getY());
         sprite.setRotation(bounds.getRotation());
         sprite.draw(batch);
+    }
+
+    public void dispose(){
+        texture.dispose();
     }
 
     public Polygon getBounds() {

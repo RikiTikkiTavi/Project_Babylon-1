@@ -1,3 +1,5 @@
 package com.greenelephant.babylon.controller;
 
-public class MapController {}
+public class MapController {
+    
+}
