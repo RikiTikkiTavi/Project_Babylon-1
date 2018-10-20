@@ -58,7 +58,8 @@ public class Map {
                 mapLayers.getIndex("Water"),
                 mapLayers.getIndex("tower-layer"),
                 mapLayers.getIndex("road"),
-                mapLayers.getIndex("cave")
+                mapLayers.getIndex("cave"),
+                mapLayers.getIndex("gover")
         };
         batch = new SpriteBatch();
         try {
