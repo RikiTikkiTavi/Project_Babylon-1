@@ -10,7 +10,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.greenelephant.babylon.utils.Constants;
-import javafx.util.Pair;
+import com.greenelephant.babylon.utils.Pair;
+
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class Map {
 
     public Map (String mapName){
         level = 0;
+
         tiledMap = new TmxMapLoader().load(mapName);
         mapLayers = tiledMap.getLayers();
         towers = new ArrayList<Tower>();
