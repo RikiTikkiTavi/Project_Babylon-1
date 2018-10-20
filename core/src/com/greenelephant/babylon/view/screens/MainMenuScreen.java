@@ -1,5 +1,6 @@
 package com.greenelephant.babylon.view.screens;
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -30,7 +31,7 @@ public class MainMenuScreen implements Screen {
 
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
-        viewport = new FitViewport(Constants.APP_WIDTH.value, Constants.APP_HEIGHT.value, camera);
+        viewport = new FitViewport(Constants.RESOLUTION.value >> 1, Constants.RESOLUTION.value >> 1, camera);
         viewport.apply();
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
@@ -78,10 +79,10 @@ public class MainMenuScreen implements Screen {
         initializeMenuButtonsListeners();
 
         //Add buttons to table
-        mainTable.add(playButton).size(300f, 60f);
+        mainTable.add(playButton).size(150f, 60f);
         mainTable.row();
         mainTable.row();
-        mainTable.add(exitButton).size(300f, 60f);
+        mainTable.add(exitButton).size(150f, 60f);
         // mainTable.add(exitButton);
 
         //Add table to stage
@@ -97,10 +98,16 @@ public class MainMenuScreen implements Screen {
         stage.draw();
     }
 
+    /**
+     * @param width  TODO:Description
+     * @param height TODO:Description
+     * @see ApplicationListener#resize(int, int)
+     */
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        float aspectRation = (float) height / width;
+        camera = new OrthographicCamera(Constants.RESOLUTION.value, Constants.RESOLUTION.value * aspectRation);
+        camera.translate(Constants.RESOLUTION.value >> 1, (Constants.RESOLUTION.value >> 1) * aspectRation);
         camera.update();
     }
 

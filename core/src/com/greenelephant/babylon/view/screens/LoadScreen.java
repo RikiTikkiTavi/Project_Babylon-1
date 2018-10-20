@@ -17,8 +17,6 @@ import com.greenelephant.babylon.model.TestTower;
 import com.greenelephant.babylon.model.Tower;
 import com.greenelephant.babylon.utils.Constants;
 
-import static com.greenelephant.babylon.utils.Constants.FIELD_SIZE;
-
 public class LoadScreen implements Screen {
 
     private OrthogonalTiledMapRenderer tiledMapRenderer;
@@ -39,12 +37,7 @@ public class LoadScreen implements Screen {
         TiledMap tiledMap = new TmxMapLoader().load("test-map.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         batch = new SpriteBatch();
-
-        testTowerTexture = new Texture(TestTower.TEXTURE_PATH);
-        testTowerTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        testTower = new TestTower(testTowerTexture, Constants.RESOLUTION.value/2, Constants.RESOLUTION.value/4,
-                Constants.FIELD_SIZE.value, Constants.FIELD_SIZE.value);
-    }
+}
 
     /**
      * Called when the screen should render itself.
@@ -63,8 +56,6 @@ public class LoadScreen implements Screen {
 //
 //        // Применяем матрицу проекции к отрисовщику
         batch.setProjectionMatrix(camera.combined);
-
-        testTower.handle(camera);
 
         batch.begin();
         testTower.draw(batch);
