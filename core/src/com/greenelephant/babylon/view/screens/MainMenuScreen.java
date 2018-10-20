@@ -79,10 +79,10 @@ public class MainMenuScreen implements Screen {
         initializeMenuButtonsListeners();
 
         //Add buttons to table
-        mainTable.add(playButton).size(150f, 60f);
+        mainTable.add(playButton).size(150, 60);
         mainTable.row();
         mainTable.row();
-        mainTable.add(exitButton).size(150f, 60f);
+        mainTable.add(exitButton).size(150, 60);
         // mainTable.add(exitButton);
 
         //Add table to stage

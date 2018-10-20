@@ -1,5 +1,7 @@
 package com.greenelephant.babylon.model;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,10 +10,13 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector3;
 import com.greenelephant.babylon.utils.Constants;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class Map {
 
@@ -38,7 +43,8 @@ public class Map {
         decorationLayersIndices = new int[]{
                 mapLayers.getIndex("tree"),
                 mapLayers.getIndex("Water"),
-                mapLayers.getIndex("Bridge")
+                mapLayers.getIndex("Bridge"),
+                mapLayers.getIndex("tower-layer")
         };
         batch = new SpriteBatch();
         try {
@@ -68,15 +74,25 @@ public class Map {
         towers.get(0).draw(batch);
         batch.end();
 
-        update();
+        update(camera);
     }
 
-    private void update(){
+    private void update(OrthographicCamera camera){
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+            Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+            touchPos = camera.unproject(touchPos);
+            Gdx.app.log("Info, coordinates |","X:" + touchPos.x + "Y:" + touchPos.y);
+            checkIfTower();
+        }
         if (level < 3) {
-            try { Thread.sleep(6000); }
+            try { Thread.sleep(1000); }
             catch (InterruptedException e) { e.printStackTrace(); }
             level++;
         }
+    }
+
+    private boolean checkIfTower() {
+        return true;
     }
 
     public void dispose() {
