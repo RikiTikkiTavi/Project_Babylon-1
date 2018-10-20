@@ -33,7 +33,7 @@ public class Map {
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     private ArrayList<Tower> towers;
     private ArrayList<Enemy> enemies;
-    private Vector3 spawnPoint = new Vector3(0, 200, 0);
+    private Vector3 spawnPoint = new Vector3(15, 310, 0);
     private long frequency = 2000;
     private long lastEnemy;
     final Random random = new Random();
@@ -50,9 +50,13 @@ public class Map {
 
         dots.add(new Vector3(235, 186, 0));
         dots.add(new Vector3(327, 45, 0));
+
         turnPoints = new ArrayList<Pair<Vector3, Integer>>();
-        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(100, 200, 0), -1));
-        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(100, 100, 0), 1));
+        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(411, 310, 0), -1));
+        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(411, 22, 0), 1));
+        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(737, 22, 0), 1));
+        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(737, 310, 0), -1));
+        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(781, 310, 0), 0));
     }
 
     public void show() {
@@ -102,6 +106,18 @@ public class Map {
     }
 
     private void update(OrthographicCamera camera) {
+        for (Pair<Vector3, Integer> dot : turnPoints) {
+            for (Enemy enemy : enemies) {
+                if (enemy.getVector().dst(dot.getKey()) < 1/enemy.getSpeed()) {
+                    if(dot.getValue() != 0)
+                        enemy.turn(dot.getValue());
+                    else {
+                        enemies.remove(enemy);
+                        break;
+                    }
+                }
+            }
+        }
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             touchPos = camera.unproject(touchPos);
@@ -114,7 +130,7 @@ public class Map {
             }
             Gdx.app.log("Info, coordinates ", "X:" + touchPos.x + "Y:" + touchPos.y);
         }
-        if (level < 3) {
+        /*if (level < 3) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -122,14 +138,8 @@ public class Map {
             }
 
             level++;
-        }
-        for (Pair<Vector3, Integer> dot : turnPoints) {
-            for (Enemy enemy : enemies) {
-                if (enemy.getVector().dst(dot.getKey()) < enemy.getSpeed() * 2) {
-                    enemy.turn(dot.getValue());
-                }
-            }
-        }
+        }*/
+
         for (Enemy enemy : enemies) {
             enemy.move();
         }
