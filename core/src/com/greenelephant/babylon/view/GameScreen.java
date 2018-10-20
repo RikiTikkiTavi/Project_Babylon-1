@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.greenelephant.babylon.model.TestTower;
 import com.greenelephant.babylon.model.Tower;
 import com.greenelephant.babylon.utils.Constants;
 
@@ -39,15 +38,15 @@ public class GameScreen implements Screen {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         batch = new SpriteBatch();
         try {
-            Class towerClass = Class.forName(Tower.TowerTypes.TestTower.getName());
+            Class towerClass = Class.forName(Tower.Types.TestTower.getName());
             Constructor towerConstructor = towerClass.getConstructor(float.class,float.class);
             testTower = (Tower)towerConstructor.newInstance(Constants.RESOLUTION.value / 2, Constants.RESOLUTION.value / 4);
         }
         catch (Exception e){
-            System.out.println("Error");
+            e.printStackTrace();
         }
 
-        //testTower = new Class.forName(Tower.TowerTypes.TestTower.getName())(Constants.RESOLUTION.value / 2, Constants.RESOLUTION.value / 4);
+        //testTower = new Class.forName(Tower.Types.TestTower.getName())(Constants.RESOLUTION.value / 2, Constants.RESOLUTION.value / 4);
 
     }
 

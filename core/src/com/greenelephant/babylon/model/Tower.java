@@ -47,11 +47,11 @@ abstract public class Tower extends GameObject {
         return upgradeArray;
     }
 
-    public enum TowerTypes {
+    public enum Types {
         TestTower(com.greenelephant.babylon.model.TestTower.class.getName());
         private String name;
 
-        TowerTypes(String name) {
+        Types(String name) {
             this.name = name;
         }
 
