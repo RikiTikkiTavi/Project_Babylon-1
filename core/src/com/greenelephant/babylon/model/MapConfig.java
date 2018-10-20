@@ -24,9 +24,9 @@ public class MapConfig {
         towerDots.add(new Vector3(778, 377, 0));
 
         turnPoints.add(new Pair<Vector3, Integer>(new Vector3(411, 310, 0), -1));
-        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(411, 22, 0), 1));
-        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(737, 22, 0), 1));
-        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(737, 310, 0), -1));
+        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(411, 16, 0), 1));
+        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(727, 16, 0), 1));
+        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(727, 310, 0), -1));
         turnPoints.add(new Pair<Vector3, Integer>(new Vector3(895, 310, 0), 0));
     }
 
