@@ -1,4 +1,4 @@
-package com.greenelephant.babylon.view.screens;
+package com.greenelephant.babylon.view.screen;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
@@ -13,10 +13,12 @@ import com.greenelephant.babylon.utils.Constants;
 
 public class GameScreen implements Screen {
 
-    Map map = new Map("test-map.tmx");
-    // Time between render calls
-    public static float deltaCff;
+    Map map;
     private OrthographicCamera camera;
+
+    public GameScreen(String mapName){
+        map = new Map(mapName);
+    }
 
     /**
      * Called when this screen becomes the current screen for a {@link Game}.

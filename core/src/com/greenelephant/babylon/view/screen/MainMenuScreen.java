@@ -1,4 +1,4 @@
-package com.greenelephant.babylon.view.screens;
+package com.greenelephant.babylon.view.screen;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
@@ -16,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.greenelephant.babylon.utils.Constants;
+import com.greenelephant.babylon.view.ScreenEnum;
+import com.greenelephant.babylon.view.ScreenManager;
 
 public class MainMenuScreen implements Screen {
 
@@ -31,7 +33,7 @@ public class MainMenuScreen implements Screen {
 
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
-        viewport = new FitViewport(Constants.RESOLUTION.value >> 1, Constants.RESOLUTION.value >> 1, camera);
+        viewport = new FitViewport(Constants.APP_WIDTH.value, Constants.APP_HEIGHT.value, camera);
         viewport.apply();
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
@@ -52,7 +54,9 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+                ScreenManager.getInstance().initialize((Game) Gdx.app.getApplicationListener());
+                ScreenManager.getInstance().showScreen(ScreenEnum.GAME.getScreen("test-map.tmx"));
+
             }
         });
         exitButton.addListener(new ClickListener() {
@@ -129,5 +133,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         skin.dispose();
+        batch.dispose();
+        stage.dispose();
     }
 }
