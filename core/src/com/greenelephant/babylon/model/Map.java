@@ -116,7 +116,7 @@ public class Map {
             touchPos = camera.unproject(touchPos);
             Gdx.app.log("Info, coordinates ", "X:" + touchPos.x + "Y:" + touchPos.y);
             for (Vector3 dot : mapConfig.getTowerDots()) {
-                if (touchPos.sub(dot).len() <= 24) {
+                if (new Vector3(touchPos).sub(dot).len() <= 24) {
                     towers.add(new TestTower(dot.x - 24, dot.y - 24));
                     mapConfig.getTowerDots().remove(dot);
                     break;

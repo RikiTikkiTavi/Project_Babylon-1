@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 
 public class TestEnemy extends Enemy {
 
-    public static final String texturePath = "green-elephant.png";
+    public static final String texturePath = "testTower.jpg";
 
 
     public TestEnemy(float x, float y) {
