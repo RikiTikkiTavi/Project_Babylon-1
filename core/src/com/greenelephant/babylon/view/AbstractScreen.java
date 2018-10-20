@@ -1,5 +1,5 @@
 package com.greenelephant.babylon.view;
 
-public class AbstractScreen {
+public abstract class AbstractScreen {
 
 }
