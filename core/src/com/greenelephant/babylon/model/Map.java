@@ -12,8 +12,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.greenelephant.babylon.utils.Constants;
 
+
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Map {
 
@@ -27,16 +29,27 @@ public class Map {
     private int[] decorationLayersIndices;
     private TiledMapTileLayer tiledMapTileLayer;
     private OrthogonalTiledMapRenderer tiledMapRenderer;
-    private ArrayList <Tower> towers;
+    private ArrayList<Tower> towers;
+    private ArrayList<Enemy> enemies;
+    private Vector3 spawnPoint = new Vector3(0,200,0);
+    private long frequency = 2000;
+    private long lastEnemy;
+    final Random random = new Random();
+    private ArrayList<Pair<Vector3,Integer>> turnPoints;
 
     public Map (String mapName){
         level = 0;
         tiledMap = new TmxMapLoader().load(mapName);
         mapLayers = tiledMap.getLayers();
         towers = new ArrayList<Tower>();
+        enemies = new ArrayList<Enemy>();
         destroyLevel = new String[]{"House", "HouseD-1", "HouseD-2", "House-Upgrade"};
+
         dots.add(new Vector3(235,186,0));
         dots.add(new Vector3(327,45,0));
+        turnPoints = new ArrayList<Pair<Vector3, Integer>>();
+        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(100,200,0),-1));
+        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(100,100,0),1));
     }
 
     public void show(){
@@ -56,6 +69,9 @@ public class Map {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        enemies.add(new TestEnemy(spawnPoint.x,spawnPoint.y));
+        lastEnemy = System.currentTimeMillis();
     }
 
     public void render (OrthographicCamera camera) {
@@ -75,6 +91,8 @@ public class Map {
         batch.begin();
         for(Tower tower:towers)
             tower.draw(batch);
+        for (Enemy enemy:enemies)
+            enemy.draw(batch);
         batch.end();
 
         update(camera);
@@ -91,18 +109,34 @@ public class Map {
                     break;
                 }
             }
-            Gdx.app.log("Info, coordinates |","X:" + touchPos.x + "Y:" + touchPos.y);
-            checkIfTower();
+            Gdx.app.log("Info, coordinates ","X:" + touchPos.x + "Y:" + touchPos.y);
         }
-        if (level < 3) {
-            try { Thread.sleep(1000); }
-            catch (InterruptedException e) { e.printStackTrace(); }
-            level++;
+//        if (level < 3) {
+//            try { Thread.sleep(1000); }
+//            catch (InterruptedException e) { e.printStackTrace(); }
+//
+        level++;
+        for(Pair<Vector3,Integer> dot:turnPoints){
+            for(Enemy enemy:enemies){
+                if(enemy.getVector().dst(dot.getKey())< enemy.getSpeed()*2){
+                    enemy.turn(dot.getValue());
+                }
+            }
+        for (Enemy enemy:enemies) {
+            enemy.move();
         }
-    }
+        if(System.currentTimeMillis() - lastEnemy >= frequency) {
+            enemies.add(new TestEnemy(spawnPoint.x, spawnPoint.y));
+            lastEnemy = System.currentTimeMillis();
 
-    private boolean checkIfTower() {
-        return true;
+
+        }
+       // if (level < 3) {
+       //     try { Thread.sleep(6000); }
+       //     catch (InterruptedException e) { e.printStackTrace(); }
+       //     level++;
+       // }
+
     }
 
     public void dispose() {
