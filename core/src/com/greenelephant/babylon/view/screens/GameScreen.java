@@ -22,7 +22,6 @@ public class GameScreen implements Screen {
 
     public GameScreen(String mapName){
         map = new Map(mapName);
-        viewport = new FitViewport(Constants.RESOLUTION.value >> 1, Constants.RESOLUTION.value >> 1, camera);
     }
 
     /**

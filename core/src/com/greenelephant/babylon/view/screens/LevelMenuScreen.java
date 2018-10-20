@@ -33,7 +33,7 @@ public class LevelMenuScreen implements Screen {
 
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
-        viewport = new FitViewport(Constants.RESOLUTION.value >> 1, Constants.RESOLUTION.value >> 1, camera);
+        viewport = new FitViewport(Constants.RESOLUTION.value, Constants.RESOLUTION.value >> 1, camera);
         viewport.apply();
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);

@@ -31,7 +31,7 @@ public class MainMenuScreen implements Screen {
 
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
-        viewport = new FitViewport(Constants.RESOLUTION.value >> 1, Constants.RESOLUTION.value >> 1, camera);
+        viewport = new FitViewport(Constants.RESOLUTION.value, Constants.RESOLUTION.value >> 1, camera);
         viewport.apply();
 
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
@@ -43,7 +43,7 @@ public class MainMenuScreen implements Screen {
 
     private void initializeMenuButtons() {
         //Create buttons
-        playButton = new TextButton("Play", skin, "default");
+        playButton = new TextButton("Play Test Level", skin, "default");
         exitButton = new TextButton("Exit", skin, "default");
     }
 
@@ -52,7 +52,7 @@ public class MainMenuScreen implements Screen {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ((Game) Gdx.app.getApplicationListener()).setScreen(new LevelMenuScreen());
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen("test-map.tmx"));
             }
         });
         exitButton.addListener(new ClickListener() {
