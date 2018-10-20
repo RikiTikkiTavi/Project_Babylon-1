@@ -9,7 +9,8 @@ public enum Constants {
     RESOLUTION(1024);
 
     public final int value;
-    Constants (int value){
+
+    Constants(int value) {
         this.value = value;
     }
 }
