@@ -1,4 +1,9 @@
 package com.greenelephant.babylon.model;
 
-public class Clicker {
+import com.badlogic.gdx.graphics.Texture;
+
+public class Clicker extends GameObject {
+    Clicker(Texture texture, float x, float y, float width, float height){
+        super(texture, x, y, width, height);
+    }
 }
