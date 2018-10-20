@@ -11,14 +11,23 @@ public class MapConfig {
     private ArrayList<Pair<Vector3, Integer>> turnPoints = new ArrayList<Pair<Vector3, Integer>>();;
 
     public MapConfig(){
-        towerDots.add(new Vector3(215, 186, 0));
-        towerDots.add(new Vector3(327, 45, 0));
+        towerDots.add(new Vector3(100, 248, 0));
+        towerDots.add(new Vector3(201, 373, 0));
+        towerDots.add(new Vector3(348, 200, 0));
+        towerDots.add(new Vector3(489, 342, 0)); //Play button
+        towerDots.add(new Vector3(488, 197, 0));
+        towerDots.add(new Vector3(345, 85, 0));
+        towerDots.add(new Vector3(553, 94, 0));
+        towerDots.add(new Vector3(682, 149, 0));
+        towerDots.add(new Vector3(810, 216, 0));
+        towerDots.add(new Vector3(683, 298, 0));
+        towerDots.add(new Vector3(778, 377, 0));
 
         turnPoints.add(new Pair<Vector3, Integer>(new Vector3(411, 310, 0), -1));
         turnPoints.add(new Pair<Vector3, Integer>(new Vector3(411, 22, 0), 1));
         turnPoints.add(new Pair<Vector3, Integer>(new Vector3(737, 22, 0), 1));
         turnPoints.add(new Pair<Vector3, Integer>(new Vector3(737, 310, 0), -1));
-        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(781, 310, 0), 0));
+        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(895, 310, 0), 0));
     }
 
     public Vector3 getSpawnPoint() {
