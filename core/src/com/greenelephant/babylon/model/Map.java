@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector3;
 import com.greenelephant.babylon.utils.Constants;
 
 import java.lang.reflect.Constructor;
@@ -23,13 +24,18 @@ public class Map {
     private int[] decorationLayersIndices;
     private TiledMapTileLayer tiledMapTileLayer;
     private OrthogonalTiledMapRenderer tiledMapRenderer;
-    private ArrayList <Tower> towers;
+    private ArrayList<Tower> towers;
+    private ArrayList<Enemy> enemies;
+    private Vector3 spawnPoint = new Vector3(0,200,0);
+    private long frequency = 500;
+    private long lastEnemy;
 
     public Map (String mapName){
         level = 0;
         tiledMap = new TmxMapLoader().load(mapName);
         mapLayers = tiledMap.getLayers();
         towers = new ArrayList<Tower>();
+        enemies = new ArrayList<Enemy>();
         destroyLevel = new String[]{"House", "HouseD-1", "HouseD-2", "House-Upgrade"};
     }
 
@@ -48,6 +54,9 @@ public class Map {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        enemies.add(new TestEnemy(spawnPoint.x,spawnPoint.y));
+        lastEnemy = System.currentTimeMillis();
     }
 
     public void render (OrthographicCamera camera) {
@@ -65,18 +74,31 @@ public class Map {
         tiledMapRenderer.getBatch().end();
 
         batch.begin();
-        towers.get(0).draw(batch);
+        for(Tower tower:towers)
+            tower.draw(batch);
+        for (Enemy enemy:enemies)
+            enemy.draw(batch);
+
         batch.end();
 
         update();
     }
 
     private void update(){
-        if (level < 3) {
-            try { Thread.sleep(6000); }
-            catch (InterruptedException e) { e.printStackTrace(); }
-            level++;
+        for (Enemy enemy:enemies) {
+            enemy.move();
         }
+        if(System.currentTimeMillis() - lastEnemy >= frequency) {
+            enemies.add(new TestEnemy(spawnPoint.x, spawnPoint.y));
+            lastEnemy = System.currentTimeMillis();
+            enemies.get(0).turnRight();
+        }
+       // if (level < 3) {
+       //     try { Thread.sleep(6000); }
+       //     catch (InterruptedException e) { e.printStackTrace(); }
+       //     level++;
+       // }
+
     }
 
     public void dispose() {
