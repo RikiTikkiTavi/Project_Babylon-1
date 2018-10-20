@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.greenelephant.babylon.model.Tower;
@@ -19,11 +21,21 @@ import java.lang.reflect.Constructor;
 
 public class GameScreen implements Screen {
 
-    private OrthogonalTiledMapRenderer tiledMapRenderer;
     private SpriteBatch batch;
     private Texture testTowerTexture;
     private Tower testTower;
+
     private OrthographicCamera camera;
+    private int[] decorationLayersIndices;
+
+    private String[] destroyLevel = {"House", "HouseD-1", "HouseD-2", "House-Upgrade"};
+
+    private TiledMapTileLayer tiledMapTileLayer;
+    private OrthogonalTiledMapRenderer tiledMapRenderer;
+    TiledMap tiledMap = new TmxMapLoader().load("test-map.tmx");
+    MapLayers mapLayers = tiledMap.getLayers();
+
+    int level = 0;
 
     // Time between render calls
     public static float deltaCff;
@@ -34,15 +46,20 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
 
-        TiledMap tiledMap = new TmxMapLoader().load("test-map.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+
+
+        decorationLayersIndices = new int[]{
+                mapLayers.getIndex("tree"),
+                mapLayers.getIndex("Water"),
+                mapLayers.getIndex("Bridge")
+        };
         batch = new SpriteBatch();
         try {
             Class towerClass = Class.forName(Tower.Types.TestTower.getName());
-            Constructor towerConstructor = towerClass.getConstructor(float.class,float.class);
-            testTower = (Tower)towerConstructor.newInstance(Constants.RESOLUTION.value / 2, Constants.RESOLUTION.value / 4);
-        }
-        catch (Exception e){
+            Constructor towerConstructor = towerClass.getConstructor(float.class, float.class);
+            testTower = (Tower) towerConstructor.newInstance(Constants.RESOLUTION.value / 2, Constants.RESOLUTION.value / 4);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -57,26 +74,31 @@ public class GameScreen implements Screen {
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(.5f, .7f, .9f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
 
-
-//        deltaCff = delta;
-//
-//        // Применяем матрицу проекции к отрисовщику
+        // Применяем матрицу проекции к отрисовщику
         batch.setProjectionMatrix(camera.combined);
+        // Update the camera
+        camera.update();
+        tiledMapRenderer.setView(camera);
 
-
-        batch.begin();
-        testTower.draw(batch);
-        batch.end();
+        // Rendering
+        tiledMapTileLayer = (TiledMapTileLayer) mapLayers.get(destroyLevel[level]);
+        tiledMapRenderer.render(decorationLayersIndices);
+        tiledMapRenderer.getBatch().begin();
+        tiledMapRenderer.renderTileLayer(tiledMapTileLayer);
+        tiledMapRenderer.getBatch().end();
+        if (level < 3) {
+            try { Thread.sleep(6000); }
+            catch (InterruptedException e) { e.printStackTrace(); }
+            level++;
+        }
     }
 
     /**
-     * @param width
-     * @param height
+     * @param width  TODO:Description
+     * @param height TODO:Description
      * @see ApplicationListener#resize(int, int)
      */
     @Override
