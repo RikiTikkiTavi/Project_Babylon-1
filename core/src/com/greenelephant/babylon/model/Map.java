@@ -10,9 +10,11 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.greenelephant.babylon.utils.Constants;
+import javafx.util.Pair;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Map {
 
@@ -27,8 +29,10 @@ public class Map {
     private ArrayList<Tower> towers;
     private ArrayList<Enemy> enemies;
     private Vector3 spawnPoint = new Vector3(0,200,0);
-    private long frequency = 500;
+    private long frequency = 2000;
     private long lastEnemy;
+    final Random random = new Random();
+    private ArrayList<Pair<Vector3,Integer>> turnPoints;
 
     public Map (String mapName){
         level = 0;
@@ -37,6 +41,9 @@ public class Map {
         towers = new ArrayList<Tower>();
         enemies = new ArrayList<Enemy>();
         destroyLevel = new String[]{"House", "HouseD-1", "HouseD-2", "House-Upgrade"};
+        turnPoints = new ArrayList<Pair<Vector3, Integer>>();
+        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(100,200,0),-1));
+        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(100,100,0),1));
     }
 
     public void show(){
@@ -85,13 +92,21 @@ public class Map {
     }
 
     private void update(){
+        for(Pair<Vector3,Integer> dot:turnPoints){
+            for(Enemy enemy:enemies){
+                if(enemy.getVector().dst(dot.getKey())< enemy.getSpeed()*2){
+                    enemy.turn(dot.getValue());
+                }
+            }
+        }
         for (Enemy enemy:enemies) {
             enemy.move();
         }
         if(System.currentTimeMillis() - lastEnemy >= frequency) {
             enemies.add(new TestEnemy(spawnPoint.x, spawnPoint.y));
             lastEnemy = System.currentTimeMillis();
-            enemies.get(0).turnRight();
+
+
         }
        // if (level < 3) {
        //     try { Thread.sleep(6000); }

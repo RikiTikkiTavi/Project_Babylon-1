@@ -32,4 +32,10 @@ abstract public class Enemy extends GameObject {
     public void turnLeft(){
         speed.rotate90(1);
     }
+    public void turn(int i){
+        speed.rotate90(i);
+    }
+    public float getSpeed(){
+        return speed.len2();
+    }
 }

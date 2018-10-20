@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Vector3;
 
 abstract class GameObject {
     Polygon bounds;
@@ -28,6 +29,10 @@ abstract class GameObject {
         sprite.setPosition(bounds.getX(), bounds.getY());
         sprite.setRotation(bounds.getRotation());
         sprite.draw(batch);
+    }
+
+    public Vector3 getVector(){
+        return new Vector3(bounds.getX(),bounds.getY(),0);
     }
 
     public void dispose(){
