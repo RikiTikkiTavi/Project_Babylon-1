@@ -105,6 +105,7 @@ public class Map {
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             touchPos = camera.unproject(touchPos);
+            Gdx.app.log("Info, coordinates ", "X:" + touchPos.x + "Y:" + touchPos.y);
             for (Vector3 dot : dots) {
                 if (touchPos.sub(dot).len() <= 24) {
                     towers.add(new TestTower(dot.x - 24, dot.y - 24));
@@ -112,7 +113,6 @@ public class Map {
                     break;
                 }
             }
-            Gdx.app.log("Info, coordinates ", "X:" + touchPos.x + "Y:" + touchPos.y);
         }
         if (level < 3) {
             try {
