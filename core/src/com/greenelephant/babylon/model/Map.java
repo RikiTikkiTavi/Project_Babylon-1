@@ -44,8 +44,9 @@ public class Map {
         decorationLayersIndices = new int[]{
                 mapLayers.getIndex("tree"),
                 mapLayers.getIndex("Water"),
-                mapLayers.getIndex("Bridge"),
-                mapLayers.getIndex("tower-layer")
+                mapLayers.getIndex("tower-layer"),
+                mapLayers.getIndex("road"),
+                mapLayers.getIndex("cave")
         };
         batch = new SpriteBatch();
         try {
