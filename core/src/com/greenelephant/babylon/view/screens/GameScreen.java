@@ -1,4 +1,4 @@
-package com.greenelephant.babylon.view;
+package com.greenelephant.babylon.view.screens;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
