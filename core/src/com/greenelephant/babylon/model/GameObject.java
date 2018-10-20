@@ -25,9 +25,7 @@ abstract class GameObject {
         bounds.setOrigin(x / 2f, y / 2f);
 
     }
-    public Vector3 getVector(){
-        return new Vector3(bounds.getX(),bounds.getY(),0);
-    }
+
     public void draw(SpriteBatch batch) {
         sprite.setPosition(bounds.getX(), bounds.getY());
         sprite.setRotation(bounds.getRotation());

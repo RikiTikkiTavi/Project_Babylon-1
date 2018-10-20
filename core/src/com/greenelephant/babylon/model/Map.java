@@ -12,6 +12,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.greenelephant.babylon.utils.Constants;
 
+import com.greenelephant.babylon.utils.Pair;
+
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -31,28 +33,29 @@ public class Map {
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     private ArrayList<Tower> towers;
     private ArrayList<Enemy> enemies;
-    private Vector3 spawnPoint = new Vector3(0,200,0);
+    private Vector3 spawnPoint = new Vector3(0, 200, 0);
     private long frequency = 2000;
     private long lastEnemy;
     final Random random = new Random();
-    private ArrayList<Pair<Vector3,Integer>> turnPoints;
+    private ArrayList<Pair<Vector3, Integer>> turnPoints;
 
-    public Map (String mapName){
+    public Map(String mapName) {
         level = 0;
+
         tiledMap = new TmxMapLoader().load(mapName);
         mapLayers = tiledMap.getLayers();
         towers = new ArrayList<Tower>();
         enemies = new ArrayList<Enemy>();
         destroyLevel = new String[]{"House", "HouseD-1", "HouseD-2", "House-Upgrade"};
 
-        dots.add(new Vector3(235,186,0));
-        dots.add(new Vector3(327,45,0));
+        dots.add(new Vector3(235, 186, 0));
+        dots.add(new Vector3(327, 45, 0));
         turnPoints = new ArrayList<Pair<Vector3, Integer>>();
-        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(100,200,0),-1));
-        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(100,100,0),1));
+        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(100, 200, 0), -1));
+        turnPoints.add(new Pair<Vector3, Integer>(new Vector3(100, 100, 0), 1));
     }
 
-    public void show(){
+    public void show() {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(this.tiledMap);
         decorationLayersIndices = new int[]{
                 mapLayers.getIndex("tree"),
@@ -70,11 +73,11 @@ public class Map {
             e.printStackTrace();
         }
 
-        enemies.add(new TestEnemy(spawnPoint.x,spawnPoint.y));
+        enemies.add(new TestEnemy(spawnPoint.x, spawnPoint.y));
         lastEnemy = System.currentTimeMillis();
     }
 
-    public void render (OrthographicCamera camera) {
+    public void render(OrthographicCamera camera) {
         // Применяем матрицу проекции к отрисовщику
         batch.setProjectionMatrix(camera.combined);
         // Update the camera
@@ -89,53 +92,52 @@ public class Map {
         tiledMapRenderer.getBatch().end();
 
         batch.begin();
-        for(Tower tower:towers)
+        for (Tower tower : towers)
             tower.draw(batch);
-        for (Enemy enemy:enemies)
+        for (Enemy enemy : enemies)
             enemy.draw(batch);
         batch.end();
 
         update(camera);
     }
 
-    private void update(OrthographicCamera camera){
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+    private void update(OrthographicCamera camera) {
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             touchPos = camera.unproject(touchPos);
-            for(Vector3 dot:dots){
-                if(touchPos.sub(dot).len() <= 24) {
+            for (Vector3 dot : dots) {
+                if (touchPos.sub(dot).len() <= 24) {
                     towers.add(new TestTower(dot.x - 24, dot.y - 24));
                     dots.remove(dot);
                     break;
                 }
             }
-            Gdx.app.log("Info, coordinates ","X:" + touchPos.x + "Y:" + touchPos.y);
+            Gdx.app.log("Info, coordinates ", "X:" + touchPos.x + "Y:" + touchPos.y);
         }
-//        if (level < 3) {
-//            try { Thread.sleep(1000); }
-//            catch (InterruptedException e) { e.printStackTrace(); }
-//
-        level++;
-        for(Pair<Vector3,Integer> dot:turnPoints){
-            for(Enemy enemy:enemies){
-                if(enemy.getVector().dst(dot.getKey())< enemy.getSpeed()*2){
+        if (level < 3) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            level++;
+        }
+        for (Pair<Vector3, Integer> dot : turnPoints) {
+            for (Enemy enemy : enemies) {
+                if (enemy.getVector().dst(dot.getKey()) < enemy.getSpeed() * 2) {
                     enemy.turn(dot.getValue());
                 }
             }
-        for (Enemy enemy:enemies) {
+        }
+        for (Enemy enemy : enemies) {
             enemy.move();
         }
-        if(System.currentTimeMillis() - lastEnemy >= frequency) {
+        if (System.currentTimeMillis() - lastEnemy >= frequency) {
             enemies.add(new TestEnemy(spawnPoint.x, spawnPoint.y));
             lastEnemy = System.currentTimeMillis();
-
-
         }
-       // if (level < 3) {
-       //     try { Thread.sleep(6000); }
-       //     catch (InterruptedException e) { e.printStackTrace(); }
-       //     level++;
-       // }
+
 
     }
 
