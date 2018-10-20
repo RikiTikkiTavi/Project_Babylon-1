@@ -6,10 +6,10 @@ import com.greenelephant.babylon.Babylon;
 import com.greenelephant.babylon.utils.Constants;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.height = Constants.APP_HEIGHT.value;
-		config.width = Constants.APP_WIDTH.value;
-		new LwjglApplication(new Babylon(), config);
-	}
+    public static void main(String[] arg) {
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        config.height = Constants.APP_HEIGHT.value;
+        config.width = Constants.APP_WIDTH.value;
+        new LwjglApplication(new Babylon(), config);
+    }
 }

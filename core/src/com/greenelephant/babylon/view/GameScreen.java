@@ -3,21 +3,18 @@ package com.greenelephant.babylon.view;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-
 import com.greenelephant.babylon.model.TestTower;
 import com.greenelephant.babylon.model.Tower;
 import com.greenelephant.babylon.utils.Constants;
 
-import static com.greenelephant.babylon.utils.Constants.FIELD_SIZE;
 
 public class GameScreen implements Screen {
 
@@ -40,10 +37,8 @@ public class GameScreen implements Screen {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         batch = new SpriteBatch();
 
-        testTowerTexture = new Texture(TestTower.TEXTURE_PATH);
-        testTowerTexture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        testTower = new TestTower(testTowerTexture, Constants.RESOLUTION.value/2, Constants.RESOLUTION.value/4,
-                Constants.FIELD_SIZE.value, Constants.FIELD_SIZE.value);
+
+        testTower = new TestTower(Constants.RESOLUTION.value / 2, Constants.RESOLUTION.value / 4);
     }
 
     /**
@@ -62,9 +57,8 @@ public class GameScreen implements Screen {
 //        deltaCff = delta;
 //
 //        // Применяем матрицу проекции к отрисовщику
-          batch.setProjectionMatrix(camera.combined);
+        batch.setProjectionMatrix(camera.combined);
 
-          testTower.handle(camera);
 
         batch.begin();
         testTower.draw(batch);
@@ -80,7 +74,7 @@ public class GameScreen implements Screen {
     public void resize(int width, int height) {
         float aspectRation = (float) height / width;
         camera = new OrthographicCamera(Constants.RESOLUTION.value, Constants.RESOLUTION.value * aspectRation);
-        camera.translate(Constants.RESOLUTION.value >> 1, (Constants.RESOLUTION.value >> 1) * aspectRation );
+        camera.translate(Constants.RESOLUTION.value >> 1, (Constants.RESOLUTION.value >> 1) * aspectRation);
         camera.update();
     }
 
