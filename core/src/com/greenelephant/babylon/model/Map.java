@@ -14,7 +14,6 @@ import com.greenelephant.babylon.utils.Constants;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class Map {
 
@@ -91,6 +90,8 @@ public class Map {
                     break;
                 }
             }
+            Gdx.app.log("Info, coordinates |","X:" + touchPos.x + "Y:" + touchPos.y);
+            checkIfTower();
         }
         if (level < 3) {
             try { Thread.sleep(1000); }
