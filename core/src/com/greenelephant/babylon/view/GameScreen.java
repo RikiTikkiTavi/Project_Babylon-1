@@ -15,6 +15,8 @@ import com.greenelephant.babylon.model.TestTower;
 import com.greenelephant.babylon.model.Tower;
 import com.greenelephant.babylon.utils.Constants;
 
+import java.lang.reflect.Constructor;
+
 
 public class GameScreen implements Screen {
 
@@ -36,9 +38,17 @@ public class GameScreen implements Screen {
         TiledMap tiledMap = new TmxMapLoader().load("test-map.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
         batch = new SpriteBatch();
+        try {
+            Class towerClass = Class.forName(Tower.TowerTypes.TestTower.getName());
+            Constructor towerConstructor = towerClass.getConstructor(float.class,float.class);
+            testTower = (Tower)towerConstructor.newInstance(Constants.RESOLUTION.value / 2, Constants.RESOLUTION.value / 4);
+        }
+        catch (Exception e){
+            System.out.println("Error");
+        }
 
+        //testTower = new Class.forName(Tower.TowerTypes.TestTower.getName())(Constants.RESOLUTION.value / 2, Constants.RESOLUTION.value / 4);
 
-        testTower = new TestTower(Constants.RESOLUTION.value / 2, Constants.RESOLUTION.value / 4);
     }
 
     /**

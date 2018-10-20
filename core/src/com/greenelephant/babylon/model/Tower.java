@@ -48,7 +48,7 @@ abstract public class Tower extends GameObject {
     }
 
     public enum TowerTypes {
-        TestTower("TestTower");
+        TestTower(com.greenelephant.babylon.model.TestTower.class.getName());
         private String name;
 
         TowerTypes(String name) {
