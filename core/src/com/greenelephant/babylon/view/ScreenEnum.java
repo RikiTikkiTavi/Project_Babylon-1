@@ -1,6 +1,7 @@
 package com.greenelephant.babylon.view;
 
 import com.badlogic.gdx.Screen;
+import com.greenelephant.babylon.view.screen.GameOverScreen;
 import com.greenelephant.babylon.view.screen.GameScreen;
 import com.greenelephant.babylon.view.screen.MainMenuScreen;
 
@@ -20,8 +21,15 @@ public enum ScreenEnum {
     },*/
     GAME {
         @Override
-        public Screen getScreen(String levelName){
+        public Screen getScreen(String levelName) {
             return new GameScreen(levelName);
+        }
+    },
+
+    GAME_OVER_SCREEN {
+        @Override
+        public Screen getScreen(String levelName){
+            return new GameOverScreen();
         }
     };
 

@@ -47,7 +47,7 @@ public class Map {
         mapLayers = tiledMap.getLayers();
         towers = new ArrayList<Tower>();
         enemies = new ArrayList<Enemy>();
-        destroyLevel = new String[]{"House", "HouseD-1", "HouseD-2", "House-Upgrade"};
+        destroyLevel = new String[]{"gover", "gover-D1","gover-D1", "gover-D2"};
 
 
     }
@@ -55,10 +55,11 @@ public class Map {
     public void show() {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(this.tiledMap);
         decorationLayersIndices = new int[]{
-                mapLayers.getIndex("Water"),
+                mapLayers.getIndex("Water-frame1"),
                 mapLayers.getIndex("road"),
                 mapLayers.getIndex("tower-layer"),
                 mapLayers.getIndex("gover"),
+                mapLayers.getIndex("House"),
                 mapLayers.getIndex("decor"),
         };
         batch = new SpriteBatch();
@@ -142,16 +143,6 @@ public class Map {
                 }
             }
         }
-
-        if (level < 3) {
-            /*try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
-
-            level++;
-        }
     }
 
     private void spawnEnemies() {
@@ -198,6 +189,8 @@ public class Map {
         shoot();
         enemiesAnimation();
     }
+
+    public int getLevel(){return level;}
 
     public void dispose() {
         batch.dispose();

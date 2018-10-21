@@ -10,7 +10,7 @@ class TestEnemy extends Enemy {
     public TestEnemy(float x, float y) {
         super(texturePath,damagedTexturePath, x, y);
         speed = new Vector2(2, 0);
-        HP = 60;
+        HP = 30;
     }
 
 }
