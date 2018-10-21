@@ -14,7 +14,7 @@ abstract public class Tower extends GameObject {
     private int health;
     long shootingFrequency;
     int power;
-    protected float price;
+    public static final int price =  500;
     Upgrade[] upgradeArray;
 
 
