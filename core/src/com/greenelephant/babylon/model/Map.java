@@ -3,13 +3,16 @@ package com.greenelephant.babylon.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.greenelephant.babylon.controller.Bank;
 import com.greenelephant.babylon.utils.Constants;
 
 import com.greenelephant.babylon.utils.Pair;
@@ -23,7 +26,7 @@ public class Map {
     MapConfig mapConfig = new MapConfig();
 
     private int level;
-    private SpriteBatch batch;
+    private SpriteBatch batch, hudBatch;
     private TiledMap tiledMap;
     private MapLayers mapLayers;
     private String[] destroyLevel;
@@ -36,6 +39,9 @@ public class Map {
     private long frequency = 2000;
     private long lastEnemy;
 
+    Bank bank = new Bank();
+    private ShapeRenderer shapeRenderer = new ShapeRenderer();
+    BitmapFont font = new BitmapFont();
 
     public Map(String mapName) {
         level = 0;
@@ -71,6 +77,20 @@ public class Map {
 
         enemies.add(new TestEnemy(mapConfig.getSpawnPoint().x, mapConfig.getSpawnPoint().y));
         lastEnemy = System.currentTimeMillis();
+
+        // HUD
+        hudBatch = new SpriteBatch();
+    }
+
+    public void handleHudButch(){
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0f, 0f, 0f,  0.2f);
+        shapeRenderer.rect(0, 980f, 1920, 50);
+        shapeRenderer.end();
+        hudBatch.begin();
+        int gold = bank.getGold();
+        font.draw(hudBatch, "Gold: "+gold, 1800, 1005);
+        hudBatch.end();
     }
 
     public void render(OrthographicCamera camera) {
@@ -93,6 +113,8 @@ public class Map {
         for (Enemy enemy : enemies)
             enemy.draw(batch);
         batch.end();
+
+        handleHudButch();
 
         update(camera);
     }
@@ -122,15 +144,16 @@ public class Map {
                 }
             }
         }
-        /*if (level < 3) {
-            try {
+
+        if (level < 3) {
+            /*try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
+            }*/
 
             level++;
-        }*/
+        }
 
         for (Enemy enemy : enemies) {
             enemy.move();
@@ -146,5 +169,6 @@ public class Map {
     public void dispose() {
         batch.dispose();
         for (Tower tower : towers) tower.dispose();
+        hudBatch.dispose();
     }
 }
