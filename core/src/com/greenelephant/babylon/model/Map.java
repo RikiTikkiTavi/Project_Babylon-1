@@ -31,7 +31,7 @@ public class Map {
     private ArrayList<Enemy> enemies;
 
     private long frequency = 500;
-    private long lastEnemy;
+    private long lastEnemy = 0;
 
 
     public Map(String mapName) {
@@ -56,16 +56,14 @@ public class Map {
                 mapLayers.getIndex("decor"),
         };
         batch = new SpriteBatch();
-        try {
+        /*try {
             Class towerClass = Class.forName(Tower.Types.TestTower.getName());
             Constructor towerConstructor = towerClass.getConstructor(float.class, float.class);
             towers.add((Tower) towerConstructor.newInstance(Constants.RESOLUTION.value >> 1, Constants.RESOLUTION.value >> 2));
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
-        enemies.add(new TestEnemy(mapConfig.getSpawnPoint().x, mapConfig.getSpawnPoint().y));
-        lastEnemy = System.currentTimeMillis();
     }
 
     public void render(OrthographicCamera camera) {
@@ -152,12 +150,19 @@ public class Map {
         }
     }
 
+    private void enemiesAnimation(){
+        for(Enemy enemy:enemies)
+            if(enemy.isDamaged() && enemy.checkTimeInterval())
+                enemy.returnTexture();
+    }
+
     private void update(OrthographicCamera camera) {
         turnEnemies();
         placeTowers(camera);
         spawnEnemies();
         moveEnemies();
         shoot();
+        enemiesAnimation();
     }
 
     public void dispose() {
