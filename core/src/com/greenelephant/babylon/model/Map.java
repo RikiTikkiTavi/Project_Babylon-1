@@ -1,7 +1,9 @@
 package com.greenelephant.babylon.model;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,6 +16,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.greenelephant.babylon.controller.Bank;
 import com.greenelephant.babylon.utils.Pair;
+import com.greenelephant.babylon.view.ScreenEnum;
+import com.greenelephant.babylon.view.ScreenManager;
+import com.greenelephant.babylon.view.screen.GameOverScreen;
 
 import java.util.ArrayList;
 
@@ -126,6 +131,10 @@ public class Map {
                         if(level < 3 && enemyAmount >= 5){
                             enemyAmount = 0;
                             level++;
+                        }
+                        else if (level >= 3) {
+                            ScreenManager.getInstance().initialize((Game) Gdx.app.getApplicationListener());
+                            ScreenManager.getInstance().showScreen(ScreenEnum.GAME_OVER_SCREEN.getScreen("test-map.tmx"));
                         }
 
                         enemies.remove(enemy);

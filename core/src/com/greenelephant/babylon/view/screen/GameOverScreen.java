@@ -32,7 +32,7 @@ public class GameOverScreen implements Screen {
         batch = new SpriteBatch();
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         camera = new OrthographicCamera();
-        viewport = new FitViewport(Constants.RESOLUTION.value >> 1, Constants.RESOLUTION.value >> 1, camera);
+        viewport = new FitViewport(Constants.RESOLUTION.value, (Constants.RESOLUTION.value >> 1) + 50, camera);
         viewport.apply();
 
         camera.position.set(camera.viewportWidth /2 , camera.viewportHeight / 2, 0);
@@ -109,8 +109,8 @@ public class GameOverScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         float aspectRation = (float) height / width;
-        camera = new OrthographicCamera(Constants.RESOLUTION.value, Constants.RESOLUTION.value * aspectRation);
-        camera.translate(Constants.RESOLUTION.value >> 1, (Constants.RESOLUTION.value >> 1) * aspectRation);
+        camera = new OrthographicCamera(0, 0);
+        camera.translate(0, 0);
         camera.update();
     }
 
