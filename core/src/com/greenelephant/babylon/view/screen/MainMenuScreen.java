@@ -29,14 +29,13 @@ public class MainMenuScreen implements Screen {
     private TextButton playButton, exitButton;
 
     public MainMenuScreen() {
-        skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
-
         batch = new SpriteBatch();
+        skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         camera = new OrthographicCamera();
-        viewport = new FitViewport(Constants.APP_WIDTH.value, Constants.APP_HEIGHT.value, camera);
+        viewport = new FitViewport(Constants.RESOLUTION.value >> 1, Constants.RESOLUTION.value >> 1, camera);
         viewport.apply();
 
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        camera.position.set(camera.viewportWidth /2 , camera.viewportHeight / 2, 0);
         camera.update();
 
         stage = new Stage(viewport, batch);
