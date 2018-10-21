@@ -91,7 +91,7 @@ public class Map {
         hudBatch.begin();
         int gold = bank.getGold();
         double rateModifier = coolClickerController.getRateModifier();
-        coolClickerController.addTestClickerListener();
+        coolClickerController.handleClicks();
         String health = 100 + " /100";
         font.draw(hudBatch, "Gold: "+gold, 20, 1005);
         font.draw(hudBatch, "Health: "+health, 1790, 1005);
