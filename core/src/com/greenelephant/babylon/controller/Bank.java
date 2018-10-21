@@ -2,7 +2,7 @@ package com.greenelephant.babylon.controller;
 
 public class Bank {
 
-    private int gold = 1000;
+    private int gold = 500;
 
     public void setGold(int newGold) {
         gold = newGold;

@@ -12,8 +12,12 @@ class TestEnemy extends Enemy {
     public TestEnemy(float x, float y) {
         super(texturePath,damagedTexturePath,deadTexturePath, x, y);
         speed = new Vector2(2, 0);
-        HP = 1;
-        reward = 25;
+        HP = 30;
+        reward = 50;
+    }
+
+    public static void moreHP(){
+        HP*=1.5;
     }
 
 }

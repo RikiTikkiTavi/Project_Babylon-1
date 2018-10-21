@@ -16,7 +16,7 @@ public class TowerController {
     }
 
 
-    public boolean shoot(long multiplier) {
+    public boolean shoot(double multiplier) {
         if (System.currentTimeMillis() - lastShoot < shootingFrequency / multiplier)
             return false;
         else {

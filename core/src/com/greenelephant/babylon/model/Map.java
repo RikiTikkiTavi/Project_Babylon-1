@@ -38,9 +38,15 @@ public class Map {
     private ArrayList<Tower> towers;
     private ArrayList<Enemy> enemies;
     private CoolClickerController coolClickerController;
+    int HP = 75;
 
-    private long frequency = 300;
+    private long started;
+
+    private long frequency = 6000;
+    private long waveFrequency = 4000;
     private long lastEnemy = 0;
+    private long lastWave = 0;
+
 
     int enemyAmount = 0;
 
@@ -79,14 +85,17 @@ public class Map {
             e.printStackTrace();
         }*/
 
-        enemies.add(new TestEnemy(mapConfig.getSpawnPoint().x, mapConfig.getSpawnPoint().y));
-        lastEnemy = System.currentTimeMillis();
+       // enemies.add(new TestEnemy(mapConfig.getSpawnPoint().x, mapConfig.getSpawnPoint().y));
+        lastEnemy = System.currentTimeMillis() - 3000;
 
         // Clicker Controller
         coolClickerController = new CoolClickerController();
 
         // HUD
         hudBatch = new SpriteBatch();
+
+        lastWave = System.currentTimeMillis();
+        started = lastWave;
     }
 
     public void handleHudButch(){
@@ -98,7 +107,7 @@ public class Map {
         int gold = bank.getGold();
         double rateModifier = coolClickerController.getRateModifier();
         coolClickerController.handleClicks();
-        String health = 100 + " /100";
+        String health = HP + " /75";
         font.draw(hudBatch, "Gold: "+gold, 20, 1005);
         font.draw(hudBatch, "Health: "+health, 1790, 1005);
         font.draw(hudBatch, "Rate: "+rateModifier, 900, 1005);
@@ -142,9 +151,11 @@ public class Map {
                         enemy.turn(dot.getValue());
                     else {
                         enemyAmount++;
+                        HP-=5;
                         if(level < 3 && enemyAmount >= 5){
                             enemyAmount = 0;
                             level++;
+
                         }
                         else if (level >= 3) {
                             ScreenManager.getInstance().initialize((Game) Gdx.app.getApplicationListener());
@@ -214,12 +225,13 @@ public class Map {
     }
 
     private void shoot() {
+        double mult = coolClickerController.getRateModifier();
         for (Tower tower : towers) {
             for (int i = 0, enemiesSize = enemies.size(); i < enemiesSize; i++) {
                 Enemy enemy = enemies.get(i);
                 if (!enemy.isDeathAnimationPlaying() &&
                         new Vector3(tower.getVector()).dst(enemy.getVector()) <= tower.getRange())
-                    if (tower.shoot(1)) { //CLICKER
+                    if (tower.shoot(mult)) { //CLICKER
                             enemy.damage(tower.getPower());
                     }
             }
@@ -246,14 +258,25 @@ public class Map {
                 enemy.returnTexture();
     }
 
+    private void checkWawe(){
+        if(frequency >= 700 && System.currentTimeMillis() - lastWave >= waveFrequency){
+            frequency/=1.3;
+            TestEnemy.moreHP();
+
+            lastWave = System.currentTimeMillis();
+        }
+    }
+
     private void update(OrthographicCamera camera) {
-        checkDead();
-        turnEnemies();
-        placeTowers(camera);
-        spawnEnemies();
-        moveEnemies();
-        shoot();
-        enemiesAnimation();
+
+            checkDead();
+            turnEnemies();
+            placeTowers(camera);
+            spawnEnemies();
+            moveEnemies();
+            shoot();
+            enemiesAnimation();
+            checkWawe();
 
     }
 

@@ -6,7 +6,7 @@ import com.greenelephant.babylon.utils.Constants;
 
 abstract class Enemy extends GameObject {
 
-    protected int HP;
+    protected static int HP;
     protected Vector2 speed;
     Texture damagedTexture;
     Texture deadTexture;

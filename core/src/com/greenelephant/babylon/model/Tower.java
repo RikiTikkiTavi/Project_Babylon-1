@@ -34,7 +34,7 @@ abstract public class Tower extends GameObject {
     //public void handle(OrthographicCamera camera) {
     //    towerController.handle(camera);
     //}
-    public boolean shoot(long multiplier) {
+    public boolean shoot(double multiplier) {
         return towerController.shoot(multiplier);
     }
 

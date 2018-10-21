@@ -13,8 +13,8 @@ class TestTower extends Tower {
             upgradeArray[i] = new EmptyUpgrade();
         power = 10;
         range = 100;
-        shootingFrequency = 700;
+        shootingFrequency = 4000;
         towerController.setShootingFrequency(shootingFrequency);
-        upgrades = new UpgradeScreen(new Upgrade("cannon-tower.png", 120, 100, 900, 100));
+        upgrades = new UpgradeScreen(new Upgrade("cannon-tower.png", 120, 100, 3000, 100));
     }
 }
