@@ -9,15 +9,16 @@ import com.greenelephant.babylon.utils.Constants;
 
 abstract public class Tower extends GameObject {
 
-    private TowerController towerController;
-    private int range;
+    TowerController towerController;
+    int range;
     private int health;
-    private long shootingFrequency;
-    private float price;
-    protected Upgrade[] upgradeArray;
+    long shootingFrequency;
+    int power;
+    protected float price;
+    Upgrade[] upgradeArray;
 
 
-    public Tower(String texturePath, float x, float y) {
+    Tower(String texturePath, float x, float y) {
         super(texturePath, x, y, Constants.TOWER_WIDTH.value, Constants.TOWER_HEIGHT.value);
         this.towerController = new TowerController(shootingFrequency);
         upgradeArray = new Upgrade[3];
@@ -47,6 +48,14 @@ abstract public class Tower extends GameObject {
 
     public Upgrade[] getUpgradeArray() {
         return upgradeArray;
+    }
+
+    public int getRange() {
+        return range;
+    }
+
+    public int getPower() {
+        return power;
     }
 
     public enum Types {

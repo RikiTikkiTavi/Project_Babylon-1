@@ -32,11 +32,11 @@ abstract class GameObject {
         sprite.draw(batch);
     }
 
-    public Vector3 getVector(){
-        return new Vector3(bounds.getX(),bounds.getY(),0);
+    public Vector3 getVector() {
+        return new Vector3(bounds.getX(), bounds.getY(), 0);
     }
 
-    public void dispose(){
+    public void dispose() {
         texture.dispose();
     }
 
