@@ -12,6 +12,7 @@ abstract class Enemy extends GameObject {
     boolean damaged;
     long lastDamage;
     int animationInterval = 500;
+    protected int reward = 20;
 
     public Enemy(String texturePath,String damagedTexturePath, float x, float y) {
         super(texturePath, x, y, Constants.ENEMY_WIDTH.value, Constants.ENEMY_HEIGHT.value);
@@ -58,5 +59,9 @@ abstract class Enemy extends GameObject {
     public void returnTexture(){
         sprite.setTexture(texture);
         damaged = false;
+    }
+
+    public int getReward() {
+        return reward;
     }
 }

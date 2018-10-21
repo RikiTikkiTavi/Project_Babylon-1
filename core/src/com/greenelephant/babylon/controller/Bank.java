@@ -2,7 +2,7 @@ package com.greenelephant.babylon.controller;
 
 public class Bank {
 
-    private int gold = 0;
+    private int gold = 300;
 
     public void setGold(int newGold) {
         gold = newGold;
@@ -16,5 +16,12 @@ public class Bank {
         return price <= gold;
     }
 
+    public void add(int newGold){
+        gold+=newGold;
+    }
+
+    public void sub(int newGold){
+        gold-=newGold;
+    }
 }
 

@@ -33,8 +33,10 @@ public class Map {
     private ArrayList<Tower> towers;
     private ArrayList<Enemy> enemies;
 
-    private long frequency = 500;
+    private long frequency = 300;
     private long lastEnemy = 0;
+
+    int enemyAmount = 0;
 
     Bank bank = new Bank();
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -121,6 +123,12 @@ public class Map {
                     if (dot.getValue() != 0)
                         enemy.turn(dot.getValue());
                     else {
+                        enemyAmount++;
+                        if(level < 3 && enemyAmount >= 5){
+                            enemyAmount = 0;
+                            level++;
+                        }
+
                         enemies.remove(enemy);
                         break;
                     }
@@ -129,13 +137,16 @@ public class Map {
         }
     }
 
+
+
     private void placeTowers(OrthographicCamera camera) {
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             touchPos = camera.unproject(touchPos);
             //Gdx.app.log("Info, coordinates ", "X:" + touchPos.x + "Y:" + touchPos.y);
             for (Vector3 dot : mapConfig.getTowerDots()) {
-                if (new Vector3(touchPos).sub(dot).len() <= 24) {
+                if (new Vector3(touchPos).sub(dot).len() <= 24 && bank.canBuy(TestTower.price)) {
+                    bank.sub(TestTower.price);
                     towers.add(new TestTower(dot.x - 24, dot.y - 24));
                     mapConfig.getTowerDots().remove(dot);
                     break;
@@ -143,15 +154,7 @@ public class Map {
             }
         }
 
-        if (level < 3) {
-            /*try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
 
-            level++;
-        }
     }
 
     private void spawnEnemies() {
@@ -175,8 +178,10 @@ public class Map {
                     if (tower.shoot(1)) { //CLICKER
                         enemy.damage(tower.getPower());
                         if (enemy.isDead()) {
+                            bank.add(enemy.getReward());
                             enemies.remove(enemy);
                             --enemiesSize;
+
                         }
                     }
             }
