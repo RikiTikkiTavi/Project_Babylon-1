@@ -259,11 +259,12 @@ public class Map {
     }
 
     private void checkWawe(){
-        if(frequency >= 700 && System.currentTimeMillis() - lastWave >= waveFrequency){
-            frequency/=1.3;
+        if(System.currentTimeMillis() - lastWave >= waveFrequency){
+            if(frequency >= 700 )
+                frequency/=1.3;
             TestEnemy.moreHP();
-
             lastWave = System.currentTimeMillis();
+
         }
     }
 

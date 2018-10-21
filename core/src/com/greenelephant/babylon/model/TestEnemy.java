@@ -13,7 +13,7 @@ class TestEnemy extends Enemy {
         super(texturePath,damagedTexturePath,deadTexturePath, x, y);
         speed = new Vector2(2, 0);
         HP = 30;
-        reward = 50;
+        reward = 25;
     }
 
     public static void moreHP(){
