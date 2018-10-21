@@ -1,6 +1,7 @@
 package com.greenelephant.babylon.model;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.greenelephant.babylon.controller.TowerController;
 import com.greenelephant.babylon.utils.Constants;
 
@@ -16,12 +17,17 @@ abstract public class Tower extends GameObject {
     int power;
     public static final int price =  500;
     Upgrade[] upgradeArray;
+    protected UpgradeScreen upgrades;
+    private boolean areUpgradesShown = false;
+    float x,y;
 
 
     Tower(String texturePath, float x, float y) {
         super(texturePath, x, y, Constants.TOWER_WIDTH.value, Constants.TOWER_HEIGHT.value);
         this.towerController = new TowerController(shootingFrequency);
         upgradeArray = new Upgrade[3];
+        this.x = x;
+        this.y = y;
     }
 
 
@@ -71,4 +77,43 @@ abstract public class Tower extends GameObject {
         }
     }
 
+    public UpgradeScreen getUpgrades() {
+
+        return upgrades;
+    }
+
+    public void setupUpgrades(float x,float y){
+        upgrades.setup(x,y);
+        areUpgradesShown = true;
+    }
+    public boolean areUpgradesShown(){
+        return  areUpgradesShown;
+    }
+
+    public void disposeUpgrades(){
+        if(areUpgradesShown) {
+            upgrades.dispose();
+            areUpgradesShown = false;
+        }
+    }
+
+    public void drawUpgrades(SpriteBatch batch){
+        if(areUpgradesShown)
+            upgrades.draw(batch);
+
+    }
+
+    public boolean isHere(float x, float y){
+        return x == this.x + 24 && y == this.y + 24;
+    }
+
+    public boolean isUpgradeHere(float x, float y){
+        Upgrade tempUpgrade = null;
+        tempUpgrade = upgrades.isUpgradeHere(x,y);
+        if(tempUpgrade != null) {
+            upgrade(tempUpgrade);
+            return true;
+        }
+        return false;
+    }
 }
