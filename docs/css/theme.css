@@ -1631,7 +1631,7 @@ nav.logo-mid.headroom--not-top .social {
     display: block !important;
     top: 67px;
     left: -10px;
-    width: 220px;
+    width: 300px;
     background: #090909;
     padding: 5px 0;
     border-bottom-right-radius: 4px;
@@ -1658,7 +1658,7 @@ nav.logo-mid.headroom--not-top .social {
     color: #1c8741;
   }
   nav.regular ul.dropdown.four-col .nav-col {
-    width: 25%;
+    width: 50%;
     border-right: 1px solid rgba(255, 255, 255, 0.1);
   }
   nav.regular ul.dropdown.four-col .nav-col:last-child {
@@ -2332,7 +2332,7 @@ header#software {
   position: relative;
   z-index: 5;
   background-size: cover;
-  margin-bottom: 130px;
+  /*margin-bottom: 130px;*/
 }
 @media (max-width: 1200px) {
   header#software {
@@ -4886,7 +4886,7 @@ footer#smart.dark3 form p.note {
 }
 
 .blog-controls {
-  border-top: 1px solid #E9ECEF;
+  /*border-top: 1px solid #E9ECEF;*/
   margin-top: 15px;
   padding-top: 22px;
 }
@@ -4913,9 +4913,9 @@ footer#smart.dark3 form p.note {
   margin-left: 11px;
 }
 
-.dark1 .blog-controls, .dark2 .blog-controls, .dark3 .blog-controls, .dark .blog-controls, .primary .blog-controls {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
+/*.dark1 .blog-controls, .dark2 .blog-controls, .dark3 .blog-controls, .dark .blog-controls, .primary .blog-controls {*/
+  /*border-top: 1px solid rgba(255, 255, 255, 0.08);*/
+/*}*/
 .dark1 .posted-by, .dark1 .comment, .dark2 .posted-by, .dark2 .comment, .dark3 .posted-by, .dark3 .comment, .dark .posted-by, .dark .comment, .primary .posted-by, .primary .comment {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -5185,6 +5185,10 @@ ul.children li {
   content: '';
   display: block;
   clear: both;
+}
+
+body{
+  background-color: #1a212a!important;
 }
 
 .blog-item,
