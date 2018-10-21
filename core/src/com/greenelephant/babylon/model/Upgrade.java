@@ -1,6 +1,6 @@
 package com.greenelephant.babylon.model;
 
-public abstract class Upgrade {
+public class Upgrade {
     private String texturePath = "green-elephant.png";
     private int range;
     private int health;
@@ -12,6 +12,7 @@ public abstract class Upgrade {
         this.health = health;
         this.shootingFrequency = shootingFrequency;
         this.price = price;
+        this.range = range;
     }
 
     public String getTexturePath() {

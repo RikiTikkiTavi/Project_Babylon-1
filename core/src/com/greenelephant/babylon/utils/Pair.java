@@ -3,7 +3,7 @@ package com.greenelephant.babylon.utils;
 public class Pair<L, R> {
 
     private final L left;
-    private final R right;
+    private R right;
 
     public Pair(L left, R right) {
         this.left = left;
@@ -17,6 +17,8 @@ public class Pair<L, R> {
     public R getValue() {
         return right;
     }
+
+    public  void setValue(R value){right = value;};
 
     @Override
     public int hashCode() {

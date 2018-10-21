@@ -6,13 +6,13 @@ class TestEnemy extends Enemy {
 
     public static final String texturePath = "FZ.png";
     public static final String damagedTexturePath = "FZ damged lv 2_1.png";
-
+    public static final String deadTexturePath = "BOM 2.png";
 
 
     public TestEnemy(float x, float y) {
-        super(texturePath,damagedTexturePath, x, y);
+        super(texturePath,damagedTexturePath,deadTexturePath, x, y);
         speed = new Vector2(2, 0);
-        HP = 30;
+        HP = 1;
         reward = 25;
     }
 

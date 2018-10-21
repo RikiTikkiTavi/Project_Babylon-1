@@ -109,8 +109,11 @@ public class Map {
         tiledMapRenderer.getBatch().end();
 
         batch.begin();
-        for (Tower tower : towers)
+        for (Tower tower : towers) {
             tower.draw(batch);
+            if(tower.areUpgradesShown())
+                tower.drawUpgrades(batch);
+        }
         for (Enemy enemy : enemies)
             enemy.draw(batch);
         batch.end();
@@ -123,7 +126,7 @@ public class Map {
     private void turnEnemies() {
         for (Pair<Vector3, Integer> dot : mapConfig.getTurnPoints()) {
             for (Enemy enemy : enemies) {
-                if (enemy.getVector().dst(dot.getKey()) < 1 / enemy.getSpeed()) {
+                if (!enemy.isDeathAnimationPlaying() && enemy.getVector().dst(dot.getKey()) < 1 / enemy.getSpeed()) {
                     if (dot.getValue() != 0)
                         enemy.turn(dot.getValue());
                     else {
@@ -152,13 +155,35 @@ public class Map {
             Vector3 touchPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
             touchPos = camera.unproject(touchPos);
             //Gdx.app.log("Info, coordinates ", "X:" + touchPos.x + "Y:" + touchPos.y);
-            for (Vector3 dot : mapConfig.getTowerDots()) {
+            for(Tower tower:towers)
+                if(tower.areUpgradesShown())
+                    if (tower.isUpgradeHere(touchPos.x,touchPos.y)) {
+                        bank.sub(200);
+                        tower.disposeUpgrades();
+                    }
+
+            for (Pair<Vector3,Boolean> pair : mapConfig.getTowerDots()) {
+                Vector3 dot = pair.getKey();
                 if (new Vector3(touchPos).sub(dot).len() <= 24 && bank.canBuy(TestTower.price)) {
-                    bank.sub(TestTower.price);
-                    towers.add(new TestTower(dot.x - 24, dot.y - 24));
-                    mapConfig.getTowerDots().remove(dot);
-                    break;
+                    if (!pair.getValue()) {
+                        bank.sub(TestTower.price);
+                        towers.add(new TestTower(dot.x - 24, dot.y - 24));
+                        pair.setValue(true);
+                        return;
+                    }
+                    else{
+                        for(Tower tower:towers) {
+                            if (tower.isHere(dot.x, dot.y)) {
+                                tower.setupUpgrades(dot.x, dot.y);
+                                return;
+                            }
+                        }
+                    }
                 }
+
+            }
+            for(Tower tower:towers) {
+                tower.disposeUpgrades();
             }
         }
     }
@@ -172,7 +197,8 @@ public class Map {
 
     private void moveEnemies() {
         for (Enemy enemy : enemies) {
-            enemy.move();
+            if(!enemy.isDeathAnimationPlaying())
+                enemy.move();
         }
     }
 
@@ -180,34 +206,44 @@ public class Map {
         for (Tower tower : towers) {
             for (int i = 0, enemiesSize = enemies.size(); i < enemiesSize; i++) {
                 Enemy enemy = enemies.get(i);
-                if (new Vector3(tower.getVector()).dst(enemy.getVector()) <= tower.getRange())
+                if (!enemy.isDeathAnimationPlaying() &&
+                        new Vector3(tower.getVector()).dst(enemy.getVector()) <= tower.getRange())
                     if (tower.shoot(1)) { //CLICKER
-                        enemy.damage(tower.getPower());
-                        if (enemy.isDead()) {
-                            bank.add(enemy.getReward());
-                            enemies.remove(enemy);
-                            --enemiesSize;
-
-                        }
+                            enemy.damage(tower.getPower());
                     }
             }
 
         }
     }
 
+    public void checkDead(){
+        for (int i = 0, enemiesSize = enemies.size(); i < enemiesSize; i++) {
+            Enemy enemy = enemies.get(i);
+            if (enemy.isDead()) {
+                bank.add(enemy.getReward());
+                enemies.remove(enemy);
+                --enemiesSize;
+
+            }
+        }
+    }
+
     private void enemiesAnimation(){
         for(Enemy enemy:enemies)
-            if(enemy.isDamaged() && enemy.checkTimeInterval())
+            if(!enemy.isDeathAnimationPlaying() &&
+                    enemy.isDamaged() && enemy.checkTimeInterval())
                 enemy.returnTexture();
     }
 
     private void update(OrthographicCamera camera) {
+        checkDead();
         turnEnemies();
         placeTowers(camera);
         spawnEnemies();
         moveEnemies();
         shoot();
         enemiesAnimation();
+
     }
 
     public int getLevel(){return level;}
