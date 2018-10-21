@@ -13,6 +13,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.greenelephant.babylon.controller.Bank;
+import com.greenelephant.babylon.controller.ClickerController;
+import com.greenelephant.babylon.controller.CoolClickerController;
 import com.greenelephant.babylon.utils.Constants;
 import com.greenelephant.babylon.utils.Pair;
 
@@ -32,6 +34,7 @@ public class Map {
     private OrthogonalTiledMapRenderer tiledMapRenderer;
     private ArrayList<Tower> towers;
     private ArrayList<Enemy> enemies;
+    private CoolClickerController coolClickerController;
 
     private long frequency = 500;
     private long lastEnemy = 0;
@@ -73,6 +76,9 @@ public class Map {
         enemies.add(new TestEnemy(mapConfig.getSpawnPoint().x, mapConfig.getSpawnPoint().y));
         lastEnemy = System.currentTimeMillis();
 
+        // Clicker Controller
+        coolClickerController = new CoolClickerController();
+
         // HUD
         hudBatch = new SpriteBatch();
     }
@@ -84,7 +90,12 @@ public class Map {
         shapeRenderer.end();
         hudBatch.begin();
         int gold = bank.getGold();
-        font.draw(hudBatch, "Gold: "+gold, 1800, 1005);
+        double rateModifier = coolClickerController.getRateModifier();
+        coolClickerController.addTestClickerListener();
+        String health = 100 + " /100";
+        font.draw(hudBatch, "Gold: "+gold, 20, 1005);
+        font.draw(hudBatch, "Health: "+health, 1790, 1005);
+        font.draw(hudBatch, "Rate: "+rateModifier, 900, 1005);
         hudBatch.end();
     }
 
