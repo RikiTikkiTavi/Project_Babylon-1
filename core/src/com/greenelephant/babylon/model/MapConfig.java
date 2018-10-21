@@ -5,23 +5,23 @@ import com.greenelephant.babylon.utils.Pair;
 
 import java.util.ArrayList;
 
-public class MapConfig {
+class MapConfig {
     private Vector3 spawnPoint = new Vector3(15, 310, 0);
     private ArrayList<Vector3> towerDots = new ArrayList<Vector3>();
-    private ArrayList<Pair<Vector3, Integer>> turnPoints = new ArrayList<Pair<Vector3, Integer>>();;
+    private ArrayList<Pair<Vector3, Integer>> turnPoints = new ArrayList<Pair<Vector3, Integer>>();
 
-    public MapConfig(){
+    public MapConfig() {
         towerDots.add(new Vector3(100, 248, 0));
-        towerDots.add(new Vector3(201, 373, 0));
-        towerDots.add(new Vector3(348, 200, 0));
-        towerDots.add(new Vector3(489, 342, 0)); //Play button
-        towerDots.add(new Vector3(488, 197, 0));
-        towerDots.add(new Vector3(345, 85, 0));
-        towerDots.add(new Vector3(553, 94, 0));
-        towerDots.add(new Vector3(682, 149, 0));
-        towerDots.add(new Vector3(810, 216, 0));
-        towerDots.add(new Vector3(683, 298, 0));
-        towerDots.add(new Vector3(778, 377, 0));
+        towerDots.add(new Vector3(196, 373, 0));
+        towerDots.add(new Vector3(343, 200, 0));
+        towerDots.add(new Vector3(484, 342, 0)); //Play button
+        towerDots.add(new Vector3(483, 197, 0));
+        towerDots.add(new Vector3(340, 85, 0));
+        towerDots.add(new Vector3(548, 84, 0));
+        towerDots.add(new Vector3(677, 149, 0));
+        towerDots.add(new Vector3(805, 216, 0));
+        towerDots.add(new Vector3(678, 298, 0));
+        towerDots.add(new Vector3(773, 377, 0));
 
         turnPoints.add(new Pair<Vector3, Integer>(new Vector3(411, 310, 0), -1));
         turnPoints.add(new Pair<Vector3, Integer>(new Vector3(411, 16, 0), 1));

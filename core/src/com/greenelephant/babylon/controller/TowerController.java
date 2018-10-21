@@ -1,8 +1,5 @@
 package com.greenelephant.babylon.controller;
 
-import com.badlogic.gdx.math.Polygon;
-
-
 public class TowerController {
 
     private long shootingFrequency;
@@ -17,7 +14,6 @@ public class TowerController {
     public void setShootingFrequency(long shootingFrequency) {
         this.shootingFrequency = shootingFrequency;
     }
-
 
 
     public boolean shoot(long multiplier) {

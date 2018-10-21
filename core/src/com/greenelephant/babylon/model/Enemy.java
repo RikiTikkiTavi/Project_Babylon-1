@@ -1,14 +1,9 @@
 package com.greenelephant.babylon.model;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.greenelephant.babylon.controller.TowerController;
 import com.greenelephant.babylon.utils.Constants;
 
-abstract public class Enemy extends GameObject {
+abstract class Enemy extends GameObject {
 
     protected int HP;
     protected Vector2 speed;
@@ -17,28 +12,27 @@ abstract public class Enemy extends GameObject {
         super(texturePath, x, y, Constants.ENEMY_WIDTH.value, Constants.ENEMY_HEIGHT.value);
     }
 
-    public boolean isDead(){
-        if(HP <= 0)
-            return true;
-        return false;
+    public boolean isDead() {
+        return HP <= 0;
     }
 
-    public void move(){
-        bounds.translate(speed.x,speed.y);
+    public void move() {
+        bounds.translate(speed.x, speed.y);
     }
 
-    public void turnRight(){
-        speed.rotate90(-1);
-    }
 
-    public void turnLeft(){
-        speed.rotate90(1);
-    }
     public void turn(int i) {
         speed.rotate90(i);
         sprite.rotate90(i < 0);
     }
-    public float getSpeed(){
+
+    public float getSpeed() {
         return speed.len2();
     }
+
+    public void damage(int d) {
+        if (d >= 0)
+            HP -= d;
+    }
+
 }
